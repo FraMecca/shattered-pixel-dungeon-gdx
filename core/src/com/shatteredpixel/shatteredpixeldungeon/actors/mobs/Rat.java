@@ -21,6 +21,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.items.food.MysteryMeat;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.RatSprite;
 import com.watabou.utils.Random;
 
@@ -31,8 +32,9 @@ public class Rat extends Mob {
 		
 		HP = HT = 8;
 		defenseSkill = 2;
-//		EXP = 100;
-		
+
+		loot = new MysteryMeat();
+		lootChance = 0.3f;
 		maxLvl = 5;
 	}
 	
