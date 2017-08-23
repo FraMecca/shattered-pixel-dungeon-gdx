@@ -177,7 +177,7 @@ public class Hero extends Char {
 		super();
 		name = Messages.get(this, "name");
 		
-		HP = HT = 20;
+		HP = HT = 20; // HT is current health, HP is maximum health
 		STR = STARTING_STR;
 		awareness = 0.1f;
 		
@@ -1222,6 +1222,11 @@ public class Hero extends Char {
 		}
 		
 		if (levelUp) {
+			if (lvl < 5 || (lvl < 15 && lvl % 2 == 0) || Random.chances([0.3, 0.7])) == 0 {
+				// increment STR when lvl < 5, every two lvl before 15, or with
+				// chance of 30%
+                STR++;
+			}
 			
 			GLog.p( Messages.get(this, "new_level"), lvl );
 			sprite.showStatus( CharSprite.POSITIVE, Messages.get(Hero.class, "level_up") );

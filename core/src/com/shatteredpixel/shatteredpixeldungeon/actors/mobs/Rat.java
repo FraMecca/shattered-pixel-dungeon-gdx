@@ -31,6 +31,7 @@ public class Rat extends Mob {
 		
 		HP = HT = 8;
 		defenseSkill = 2;
+//		EXP = 100;
 		
 		maxLvl = 5;
 	}

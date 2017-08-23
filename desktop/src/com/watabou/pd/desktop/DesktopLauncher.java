@@ -34,6 +34,7 @@ import org.lwjgl.opengl.Display;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
+		System.out.println("toto");
 		String version = DesktopLauncher.class.getPackage().getSpecificationVersion();
 		if (version == null) {
 			version = "0.6.1a";

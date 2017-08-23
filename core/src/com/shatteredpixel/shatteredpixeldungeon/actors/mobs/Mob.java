@@ -542,7 +542,7 @@ public abstract class Mob extends Char {
 	}
 
 	public int exp() {
-		return Dungeon.hero.lvl <= maxLvl ? EXP : 0;
+		return Dungeon.hero.lvl <= maxLvl ? EXP : Random.IntRange(0, EXP);
 	}
 	
 	@Override
