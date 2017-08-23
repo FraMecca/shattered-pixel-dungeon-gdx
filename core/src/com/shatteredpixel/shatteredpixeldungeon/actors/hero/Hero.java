@@ -1222,12 +1222,12 @@ public class Hero extends Char {
 		}
 		
 		if (levelUp) {
-			if (lvl < 5 || (lvl < 15 && lvl % 2 == 0) || Random.chances([0.3, 0.7])) == 0 {
+			if (lvl < 5 || (lvl < 15 && lvl % 2 == 0) || Random.chances(0.3f, 0.7f) ==0){
 				// increment STR when lvl < 5, every two lvl before 15, or with
 				// chance of 30%
-                STR++;
+				STR++;
 			}
-			
+
 			GLog.p( Messages.get(this, "new_level"), lvl );
 			sprite.showStatus( CharSprite.POSITIVE, Messages.get(Hero.class, "level_up") );
 			Sample.INSTANCE.play( Assets.SND_LEVELUP );
