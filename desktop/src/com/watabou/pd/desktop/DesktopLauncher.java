@@ -20,7 +20,7 @@
  */
 package com.watabou.pd.desktop;
 
-import api.rest.RestEngine;
+import api.rest.RestSharedData;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
@@ -30,11 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Preferences;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.watabou.input.NoosaInputProcessor;
 import com.watabou.utils.PDPlatformSupport;
-//import com.shatteredapi.rest;
-import api.rest.RestSharedData;
 
-
-import org.lwjgl.opengl.Display;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) throws Exception {
