@@ -1,4 +1,4 @@
-package com.shatteredpixel.api.rest;
+package api.rest;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

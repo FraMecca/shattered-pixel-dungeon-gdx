@@ -129,6 +129,7 @@ public class Hero extends Char implements Signal.Listener {
 
 	@Override
 	public void onSignal(Object o) {
+		System.out.println(o);
 		if (o instanceof String) {
 			if (o.equals("prova")) {
 				this.STR++;

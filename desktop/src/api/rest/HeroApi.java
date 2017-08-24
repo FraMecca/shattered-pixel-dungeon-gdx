@@ -1,4 +1,4 @@
-package com.shatteredpixel.api.rest;
+package api.rest;
 
 import com.codahale.metrics.annotation.Timed;
 
@@ -9,8 +9,7 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/hero")
 @Produces(MediaType.APPLICATION_JSON)
-public class Hero {
-    private String t = "t";
+public class HeroApi extends APIAbstract {
 
     @GET
     @Path("/str")
@@ -31,5 +30,13 @@ public class Hero {
     @Timed
     public GeneralResponse strDecrease() {
         return new GeneralResponse("Hero", "str", -10);
+    }
+
+    @GET
+    @Path("/signal")
+    @Timed
+    public GeneralResponse signal() {
+        this.dispatch();
+        return new GeneralResponse("Hero", "signal", 0);
     }
 }

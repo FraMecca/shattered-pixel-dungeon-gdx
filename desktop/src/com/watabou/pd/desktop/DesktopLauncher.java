@@ -20,6 +20,7 @@
  */
 package com.watabou.pd.desktop;
 
+import api.rest.RestEngine;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
@@ -29,11 +30,14 @@ import com.shatteredpixel.shatteredpixeldungeon.Preferences;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.watabou.input.NoosaInputProcessor;
 import com.watabou.utils.PDPlatformSupport;
+//import com.shatteredapi.rest;
+import api.rest.RestSharedData;
+
 
 import org.lwjgl.opengl.Display;
 
 public class DesktopLauncher {
-	public static void main (String[] arg) {
+	public static void main (String[] arg) throws Exception {
 		String version = DesktopLauncher.class.getPackage().getSpecificationVersion();
 		if (version == null) {
 			version = "0.6.1a";
@@ -77,9 +81,14 @@ public class DesktopLauncher {
 		// TODO: It have to be pulled from build.gradle, but I don't know how it can be done
 		config.title = "Shattered Pixel Dungeon";
 
+		// Start REST server in a secondary thread
+		Thread th = new Thread(RestSharedData.getRestIstance());
+		th.start();
+
 		LwjglApplication app =new LwjglApplication(new ShatteredPixelDungeon(
 				new DesktopSupport(version, versionCode, config.preferencesDirectory, new DesktopInputProcessor())
 		), config);
+	//	new RestEngine().run("server");
 
 	}
 

@@ -1,4 +1,4 @@
-package rest.src.com.shatteredpixel.api.rest;
+package api.rest;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.dropwizard.Configuration;
 import org.hibernate.validator.constraints.NotEmpty;
