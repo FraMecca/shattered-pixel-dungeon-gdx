@@ -20,6 +20,7 @@
  */
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
+import api.rest.RestSharedData;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Bones;
@@ -130,11 +131,7 @@ public class Hero extends Char implements Signal.Listener {
 	@Override
 	public void onSignal(Object o) {
 		System.out.println(o);
-		if (o instanceof String) {
-			if (o.equals("prova")) {
-				this.STR++;
-			}
-		}
+		this.STR++;
 	}
 
 	public static final int MAX_LEVEL = 30;
@@ -182,6 +179,8 @@ public class Hero extends Char implements Signal.Listener {
 	
 	public Hero() {
 		super();
+		RestSharedData.getRestIstance().heroApi.add(this);
+
 		name = Messages.get(this, "name");
 		
 		HP = HT = 20; // HT is current health, HP is maximum health
@@ -1504,6 +1503,7 @@ public class Hero extends Char implements Signal.Listener {
 	}
 	
 	public boolean search( boolean intentional ) {
+
 
 		boolean smthFound = false;
 
