@@ -83,7 +83,7 @@ public class Signal<T> {
 
 		}
 	}
-	
+
 	public void cancel() {
 		canceled = true;
 	}

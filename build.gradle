@@ -34,12 +34,20 @@ allprojects {
 	}
 }
 
+project(":rest") {
+	apply plugin: 'java'
+
+	dependencies {
+    	compile group: 'io.dropwizard', name: 'dropwizard-core', version: '1.1.2'
+	}
+}
+
 project(":desktop") {
 	apply plugin: "java"
 
-
 	dependencies {
 		compile project(":core")
+		compile project(":rest")
 		compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
 		compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 		compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"

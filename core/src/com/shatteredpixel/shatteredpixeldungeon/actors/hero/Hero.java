@@ -115,21 +115,27 @@ import com.shatteredpixel.shatteredpixeldungeon.windows.WndTradeItem;
 import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
-import com.watabou.utils.Bundle;
-import com.watabou.utils.GameMath;
-import com.watabou.utils.PathFinder;
-import com.watabou.utils.Random;
+import com.watabou.utils.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
-public class Hero extends Char {
+public class Hero extends Char implements Signal.Listener {
 
 	{
 		actPriority = 0; //acts at priority 0, baseline for the rest of behaviour.
 	}
-	
+
+	@Override
+	public void onSignal(Object o) {
+		if (o instanceof String) {
+			if (o.equals("prova")) {
+				this.STR++;
+			}
+		}
+	}
+
 	public static final int MAX_LEVEL = 30;
 
 	public static final int STARTING_STR = 10;
@@ -1497,7 +1503,7 @@ public class Hero extends Char {
 	}
 	
 	public boolean search( boolean intentional ) {
-		
+
 		boolean smthFound = false;
 
 		int positive = 0;

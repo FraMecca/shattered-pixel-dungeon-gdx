@@ -34,7 +34,6 @@ import org.lwjgl.opengl.Display;
 
 public class DesktopLauncher {
 	public static void main (String[] arg) {
-		System.out.println("toto");
 		String version = DesktopLauncher.class.getPackage().getSpecificationVersion();
 		if (version == null) {
 			version = "0.6.1a";
@@ -78,9 +77,10 @@ public class DesktopLauncher {
 		// TODO: It have to be pulled from build.gradle, but I don't know how it can be done
 		config.title = "Shattered Pixel Dungeon";
 
-		new LwjglApplication(new ShatteredPixelDungeon(
+		LwjglApplication app =new LwjglApplication(new ShatteredPixelDungeon(
 				new DesktopSupport(version, versionCode, config.preferencesDirectory, new DesktopInputProcessor())
 		), config);
+
 	}
 
 	private static class DesktopSupport extends PDPlatformSupport {
