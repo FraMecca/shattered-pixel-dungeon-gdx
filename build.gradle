@@ -39,7 +39,6 @@ project(":desktop") {
 
 	dependencies {
 		compile project(":core")
-    	compile group: 'io.dropwizard', name: 'dropwizard-core', version: '1.1.2'
 		compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
 		compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
 		compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
@@ -100,6 +99,7 @@ project(":core") {
 
 	dependencies {
 		compile project(":PD-classes")
+		compile group: 'io.dropwizard', name: 'dropwizard-core', version: '1.1.2'
 		compile "com.badlogicgames.gdx:gdx:$gdxVersion"
 		compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
 	}
@@ -114,8 +114,4 @@ project(":PD-classes") {
 		compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
 		compile "org.json:json:20140107"
 	}
-}
-
-tasks.eclipse.doLast {
-	delete ".project"
 }
