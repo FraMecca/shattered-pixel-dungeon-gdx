@@ -65,6 +65,10 @@ public class Signal<T> {
 	public synchronized int numListeners() {
 		return listeners.size();
 	}
+
+	public synchronized Object returningDispatch (T t, int pos) {
+		return ((RestListener) this.listeners.get(pos)).signalAndGet(t);
+	}
 	
 	public synchronized void dispatch( T t ) {
 
@@ -84,11 +88,35 @@ public class Signal<T> {
 		}
 	}
 
+	public synchronized void valueDispatch(T t, Integer n) {
+
+		@SuppressWarnings("unchecked")
+		Listener<T>[] list = listeners.toArray( new Listener[0] );
+
+		canceled = false;
+		for (Listener<T> listener : list) {
+
+			if (listeners.contains(listener)) {
+				((RestListener) listener).onSignal(t, n);
+				if (canceled) {
+					return;
+				}
+			}
+
+		}
+	}
+
 	public void cancel() {
 		canceled = true;
 	}
-	
+
+
 	public static interface Listener<T> {
 		public void onSignal( T t );
+	}
+
+	public static interface RestListener<T> extends Listener {
+		public Object signalAndGet(T t);
+		public void onSignal (T t, Integer i);
 	}
 }

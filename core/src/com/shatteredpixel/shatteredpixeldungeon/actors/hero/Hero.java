@@ -118,21 +118,19 @@ import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.*;
 
+import javax.validation.executable.ValidateOnExecution;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
-public class Hero extends Char implements Signal.Listener {
+import static com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero.ACTION.DECDEF;
+
+public class Hero extends Char implements Signal.RestListener {
 
 	{
 		actPriority = 0; //acts at priority 0, baseline for the rest of behaviour.
 	}
 
-	@Override
-	public void onSignal(Object o) {
-		System.out.println(o);
-		this.STR++;
-	}
 
 	public static final int MAX_LEVEL = 30;
 
@@ -176,7 +174,7 @@ public class Hero extends Char implements Signal.Listener {
 	//This list is maintained so that some logic checks can be skipped
 	// for enemies we know we aren't seeing normally, resultign in better performance
 	public ArrayList<Mob> mindVisionEnemies = new ArrayList<>();
-	
+
 	public Hero() {
 		super();
 		RestSharedData.getRestIstance().heroApi.add(this);
@@ -190,6 +188,9 @@ public class Hero extends Char implements Signal.Listener {
 		belongings = new Belongings( this );
 		
 		visibleEnemies = new ArrayList<Mob>();
+
+		Ankh it = new Ankh();
+		it.doPickUp(this);
 	}
 	
 	public void updateHT( boolean boostHP ){
@@ -1628,5 +1629,160 @@ public class Hero extends Char implements Signal.Listener {
 
 	public static interface Doom {
 		public void onDeath();
+	}
+
+	// Listeners enum for various actions
+	static public enum ACTION {
+		GETSTR,
+		GETHT,
+		GETHP,
+		GETATK,
+		GETDEF,
+		GETLVL,
+		GETEXP,
+
+		INCSTR,
+		INCHT,
+		INCHP,
+		INCATK,
+		INCDEF,
+		INCLVL,
+		INCEXP,
+
+		DECSTR,
+		DECHT,
+		DECHP,
+		DECATK,
+		DECDEF,
+		DECLVL,
+		DECEXP,
+
+		FULLHP
+
+	}
+
+	@Override
+	public Object signalAndGet(Object o) {
+		ACTION act = (ACTION) o;
+		switch (act) {
+			case GETSTR:
+				return STR;
+			case GETHT:
+				return HT;
+			case GETHP:
+				return HP;
+			case GETATK:
+				return attackSkill;
+			case GETDEF:
+				return defenseSkill;
+			case GETLVL:
+				return lvl;
+			case GETEXP:
+				return exp;
+			case FULLHP:
+				this.HP = this.HT;
+				return this.HP;
+		}
+		return o;
+	}
+
+	@Override
+    public void onSignal(Object o) {
+		ACTION action = (ACTION) o;
+		switch (action) {
+			case INCSTR:
+				STR++;
+				break;
+			case INCHT:
+				HT++;
+				break;
+			case INCHP:
+				HP++;
+				break;
+			case INCATK:
+				attackSkill++;
+				break;
+			case INCDEF:
+				defenseSkill++;
+				break;
+			case INCLVL:
+				lvl++;
+				break;
+			case INCEXP:
+				exp++;
+				break;
+
+			case DECSTR:
+				STR--;
+				break;
+			case DECHT:
+				HT--;
+				break;
+			case DECHP:
+				HP--;
+				break;
+			case DECATK:
+				attackSkill--;
+				break;
+			case DECDEF:
+				defenseSkill--;
+				break;
+			case DECLVL:
+				lvl--;
+				break;
+			case DECEXP:
+				exp--;
+				break;
+		}
+	}
+
+	@Override
+	public void onSignal (Object o, Integer n) {
+        	ACTION action = (ACTION) o;
+        	switch (action) {
+				case INCSTR:
+					STR += n;
+					break;
+				case INCHT:
+					HT += n;
+					break;
+				case INCHP:
+					HP += n;
+					break;
+				case INCATK:
+					attackSkill += n;
+					break;
+				case INCDEF:
+					defenseSkill += n;
+					break;
+				case INCLVL:
+					lvl += n;
+					break;
+				case INCEXP:
+					exp += n;
+					break;
+
+				case DECSTR:
+					STR -= n;
+					break;
+				case DECHT:
+					HT -= n;
+					break;
+				case DECHP:
+					HP -= n;
+					break;
+				case DECATK:
+					attackSkill -= n;
+					break;
+				case DECDEF:
+					defenseSkill -= n;
+					break;
+				case DECLVL:
+					lvl -= n;
+					break;
+				case DECEXP:
+					exp -= n;
+					break;
+			}
 	}
 }
