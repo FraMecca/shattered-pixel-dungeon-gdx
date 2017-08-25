@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Challenges;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.items.BrokenSeal;
+import com.shatteredpixel.shatteredpixeldungeon.items.Rope;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.ClothArmor;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.CloakOfShadows;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Food;
@@ -106,6 +107,7 @@ public enum HeroClass {
 
 	private static void initWarrior( Hero hero ) {
 		(hero.belongings.weapon = new WornShortsword()).identify();
+		(hero.belongings.rope = new Rope()).identify();
 		Dart darts = new Dart( 8 );
 		darts.identify().collect();
 
@@ -136,6 +138,8 @@ public enum HeroClass {
 		}
 
 		(hero.belongings.weapon = staff).identify();
+		(hero.belongings.rope = new Rope()).identify();
+
 		hero.belongings.weapon.activate(hero);
 
 		Dungeon.quickslot.setSlot(0, staff);
@@ -145,6 +149,7 @@ public enum HeroClass {
 
 	private static void initRogue( Hero hero ) {
 		(hero.belongings.weapon = new Dagger()).identify();
+		(hero.belongings.rope = new Rope()).identify();
 
 		CloakOfShadows cloak = new CloakOfShadows();
 		(hero.belongings.misc1 = cloak).identify();
@@ -162,6 +167,8 @@ public enum HeroClass {
 	private static void initHuntress( Hero hero ) {
 
 		(hero.belongings.weapon = new Knuckles()).identify();
+		(hero.belongings.rope = new Rope()).identify();
+
 		Boomerang boomerang = new Boomerang();
 		boomerang.identify().collect();
 

@@ -29,6 +29,7 @@ import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.Gold;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.Rope;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Terrain;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
@@ -79,6 +80,11 @@ public class ItemSprite extends MovieClip {
 		super(Assets.ITEMS);
 
 		view (item);
+	}
+
+	public ItemSprite( Rope rope){
+		super(Assets.ROPE);
+		view(rope);
 	}
 	
 	public ItemSprite( int image, Glowing glowing ) {
