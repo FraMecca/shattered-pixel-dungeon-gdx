@@ -28,6 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Buff;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Cripple;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.Rope;
 import com.shatteredpixel.shatteredpixeldungeon.items.artifacts.TimekeepersHourglass;
 import com.shatteredpixel.shatteredpixeldungeon.levels.RegularLevel;
@@ -93,10 +94,11 @@ public class Chasm {
 		
 		Hero hero = Dungeon.hero;
 		// if the hero has a rope, no damage, rope deleted from items
-		if(hero.belongings.backpack.items.contains(Rope.class)){
+		if(hero.belongings.backpack.rope != null){
 			Camera.main.shake( 4, 0.2f );
 			Dungeon.level.press( hero.pos, hero );
-			hero.belongings.backpack.items.remove(Rope.class);
+			hero.belongings.backpack.rope.execute(hero, "DESCEND");
+
 		} else {
 			hero.sprite.burst(hero.sprite.blood(), 10);
 			Camera.main.shake(4, 0.2f);

@@ -24,7 +24,6 @@ import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindOfWeapon;
 import com.shatteredpixel.shatteredpixeldungeon.items.KindofMisc;
-import com.shatteredpixel.shatteredpixeldungeon.items.Rope;
 import com.shatteredpixel.shatteredpixeldungeon.items.armor.Armor;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.keys.GoldenKey;
@@ -52,8 +51,7 @@ public class Belongings implements Iterable<Item> {
 	public Armor armor = null;
 	public KindofMisc misc1 = null;
 	public KindofMisc misc2 = null;
-	public Rope rope = null;
-	
+
 	public Belongings( Hero owner ) {
 		this.owner = owner;
 		
@@ -68,7 +66,6 @@ public class Belongings implements Iterable<Item> {
 	private static final String ARMOR		= "armor";
 	private static final String MISC1       = "misc1";
 	private static final String MISC2       = "misc2";
-	private static final String ROPE		= "rope";
 
 	public void storeInBundle( Bundle bundle ) {
 		
@@ -78,7 +75,6 @@ public class Belongings implements Iterable<Item> {
 		bundle.put( ARMOR, armor );
 		bundle.put( MISC1, misc1);
 		bundle.put( MISC2, misc2);
-		bundle.put( ROPE, rope);
 	}
 	
 	public void restoreFromBundle( Bundle bundle ) {
@@ -128,11 +124,6 @@ public class Belongings implements Iterable<Item> {
 		if (misc2 != null) {
 			misc2.activate( owner );
 		}
-
-		rope = (Rope)bundle.get(ROPE);
-		if (rope != null){
-			rope.activate( owner );
-		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -180,10 +171,6 @@ public class Belongings implements Iterable<Item> {
 		if (misc2 != null) {
 			misc2.identify();
 			Badges.validateItemLevelAquired(misc2);
-		}
-		if (rope != null) {
-			rope.identify();
-			Badges.validateItemLevelAquired(rope);
 		}
 		for (Item item : backpack) {
 			item.cursedKnown = true;
@@ -235,10 +222,7 @@ public class Belongings implements Iterable<Item> {
 			misc2.cursed = false;
 			misc2.activate( owner );
 		}
-		if (rope != null){
-			rope.cursed = false;
-			rope.activate( owner );
-		}
+
 	}
 	
 	public int charge( float charge ) {
@@ -263,7 +247,7 @@ public class Belongings implements Iterable<Item> {
 		
 		private Iterator<Item> backpackIterator = backpack.iterator();
 		
-		private Item[] equipped = {weapon, armor, misc1, misc2, rope};
+		private Item[] equipped = {weapon, armor, misc1, misc2};
 		private int backpackIndex = equipped.length;
 		
 		@Override
@@ -305,9 +289,6 @@ public class Belongings implements Iterable<Item> {
 				break;
 			case 3:
 				equipped[3] = misc2 = null;
-				break;
-			case 4:
-				equipped[4] = rope = null;
 				break;
 			default:
 				backpackIterator.remove();

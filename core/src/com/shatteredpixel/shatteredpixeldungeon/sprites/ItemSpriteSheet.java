@@ -28,6 +28,7 @@ public class ItemSpriteSheet {
 	private static final int WIDTH = 16;
 
 	public static TextureFilm film = new TextureFilm( Assets.ITEMS, 16, 16 );
+	public static TextureFilm ropeFilm = new TextureFilm( Assets.ROPE, 32, 32);
 
 	private static int xy(int x, int y){
 		x -= 1; y -= 1;
@@ -123,6 +124,7 @@ public class ItemSpriteSheet {
 		assignItemRect(MASTERY,         13, 16);
 		assignItemRect(KIT,             16, 15);
 		assignItemRect(AMULET,          16, 16);
+
 	}
 
 	                                                                                    //32 free slots
@@ -444,12 +446,21 @@ public class ItemSpriteSheet {
 	}
 
 	                                                                                    //64 free slots
-
+	public static final int ROPE		= 0;
+	static {
+		assignRopeRect(ROPE, 32,32);
+	}
 
 	private static void assignItemRect( int item, int width, int height){
 		int x = (item % WIDTH) * WIDTH;
 		int y = (item / WIDTH) * WIDTH;
 		film.add( item, x, y, x+width, y+height);
+	}
+
+	private static void assignRopeRect( int item, int width, int height){
+		int x = (item % WIDTH) * WIDTH;
+		int y = (item / WIDTH) * WIDTH;
+		ropeFilm.add( item, x, y, x+width, y+height);
 	}
 
 }

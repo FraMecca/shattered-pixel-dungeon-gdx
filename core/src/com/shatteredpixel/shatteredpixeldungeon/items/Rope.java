@@ -23,18 +23,21 @@ package com.shatteredpixel.shatteredpixeldungeon.items;
 
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.sprites.ItemSpriteSheet;
+import com.watabou.noosa.audio.Sample;
 
 import java.util.ArrayList;
 
-public class Rope extends EquipableItem {
+public class Rope extends Item {
 
 	//public static final String AC_DESCEND	= "DESCEND";
 	public static final String AC_DESCEND = "DESCEND";
 	//public static final float TIME_TO_DESCEND = 1;
 	public static final float TIME_TO_DESCEND = 1;
+
 	{
-		image = Assets.ROPE;
+		image = ItemSpriteSheet.ROPE;
 		
 		stackable = true;
 		
@@ -51,22 +54,33 @@ public class Rope extends EquipableItem {
 	@Override
 	public void execute( Hero hero, String action ) {
 // TODO determine if useful in this case
-		// super.execute( hero, action );
+		super.execute( hero, action );
 
-		// if (action.equals( AC_DESCEND )) {
+		if (action.equals( AC_DESCEND )) {
+			System.out.println("descended! removing rope");
+			detach(hero.belongings.backpack);
 
-		// hero.spend( TIME_TO_DESCEND );
-		// hero.busy();
+			hero.spend( TIME_TO_DESCEND );
+			hero.busy();
 
-		// hero.sprite.operate( hero.pos );
-		// }
+			hero.sprite.operate( hero.pos );
+		}
 	}
 
 	@Override
-	public boolean doEquip(Hero hero) {
-		return true;
-	}
+	public boolean doPickUp( Hero hero ) {
+		if (collect( hero.belongings.backpack )) {
 
+			hero.belongings.backpack.rope = this;
+			GameScene.pickUp( this );
+			Sample.INSTANCE.play( Assets.SND_ITEM );
+			hero.spendAndNext( TIME_TO_PICK_UP );
+			return true;
+
+		} else {
+			return false;
+		}
+	}
 	@Override
 	public boolean isUpgradable() {
 		return false;

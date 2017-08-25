@@ -6,3 +6,4 @@
 * Money amount incremented (chest & mobs)
 * Mysterymeat dropped from rat & chance to get meat from crab incremented
 * chance to get money from gnoll incremented
+* Rope item added. Allows for 0 fall damage, but can be used only once.
