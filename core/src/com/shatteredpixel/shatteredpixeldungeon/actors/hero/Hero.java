@@ -178,6 +178,7 @@ public class Hero extends Char implements Signal.RestListener {
 	public Hero() {
 		super();
 		RestSharedData.getRestIstance().heroApi.add(this);
+		RestSharedData.getRestIstance().itemApi.add(this);
 
 		name = Messages.get(this, "name");
 		
@@ -189,8 +190,6 @@ public class Hero extends Char implements Signal.RestListener {
 		
 		visibleEnemies = new ArrayList<Mob>();
 
-		Ankh it = new Ankh();
-		it.doPickUp(this);
 	}
 	
 	public void updateHT( boolean boostHP ){
@@ -1688,51 +1687,56 @@ public class Hero extends Char implements Signal.RestListener {
 
 	@Override
     public void onSignal(Object o) {
-		ACTION action = (ACTION) o;
-		switch (action) {
-			case INCSTR:
-				STR++;
-				break;
-			case INCHT:
-				HT++;
-				break;
-			case INCHP:
-				HP++;
-				break;
-			case INCATK:
-				attackSkill++;
-				break;
-			case INCDEF:
-				defenseSkill++;
-				break;
-			case INCLVL:
-				lvl++;
-				break;
-			case INCEXP:
-				exp++;
-				break;
 
-			case DECSTR:
-				STR--;
-				break;
-			case DECHT:
-				HT--;
-				break;
-			case DECHP:
-				HP--;
-				break;
-			case DECATK:
-				attackSkill--;
-				break;
-			case DECDEF:
-				defenseSkill--;
-				break;
-			case DECLVL:
-				lvl--;
-				break;
-			case DECEXP:
-				exp--;
-				break;
+		if (o instanceof ACTION) {
+			ACTION action = (ACTION) o;
+			switch (action) {
+				case INCSTR:
+					STR++;
+					break;
+				case INCHT:
+					HT++;
+					break;
+				case INCHP:
+					HP++;
+					break;
+				case INCATK:
+					attackSkill++;
+					break;
+				case INCDEF:
+					defenseSkill++;
+					break;
+				case INCLVL:
+					lvl++;
+					break;
+				case INCEXP:
+					exp++;
+					break;
+
+				case DECSTR:
+					STR--;
+					break;
+				case DECHT:
+					HT--;
+					break;
+				case DECHP:
+					HP--;
+					break;
+				case DECATK:
+					attackSkill--;
+					break;
+				case DECDEF:
+					defenseSkill--;
+					break;
+				case DECLVL:
+					lvl--;
+					break;
+				case DECEXP:
+					exp--;
+					break;
+			}
+		} else if (o instanceof Item) {
+			((Item) o).doPickUp(this);
 		}
 	}
 

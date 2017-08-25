@@ -8,8 +8,8 @@ import java.util.LinkedList;
 import java.util.Optional;
 
 public abstract class APIAbstract {
-    private LinkedList<Signal.Listener> listeners;
-    private Signal<Hero.ACTION> signal;
+    protected LinkedList<Signal.Listener> listeners;
+    protected Signal<Object> signal;
 
     public APIAbstract () {
         this.signal = new Signal<>();
@@ -21,7 +21,7 @@ public abstract class APIAbstract {
         this.signal.add(el);
     }
 
-    public void dispatch (Hero.ACTION st, Optional<Integer> n) {
+    public void dispatch (Object st, Optional<Integer> n) {
         if (n.isPresent()) {
             signal.valueDispatch(st, n.get());
         } else {
@@ -29,10 +29,10 @@ public abstract class APIAbstract {
         }
     }
 
-    public void dispatch (Hero.ACTION st) {
+    public void dispatch (Object st) {
         signal.dispatch(st);
     }
 
-    public Object returningDispatch (Hero.ACTION st) {return signal.returningDispatch(st, 0);}
+    public Object returningDispatch (Object st) {return signal.returningDispatch(st, 0);}
 
 }
