@@ -51,7 +51,7 @@ public class Belongings implements Iterable<Item> {
 	public Armor armor = null;
 	public KindofMisc misc1 = null;
 	public KindofMisc misc2 = null;
-	
+
 	public Belongings( Hero owner ) {
 		this.owner = owner;
 		
@@ -222,6 +222,7 @@ public class Belongings implements Iterable<Item> {
 			misc2.cursed = false;
 			misc2.activate( owner );
 		}
+
 	}
 	
 	public int charge( float charge ) {

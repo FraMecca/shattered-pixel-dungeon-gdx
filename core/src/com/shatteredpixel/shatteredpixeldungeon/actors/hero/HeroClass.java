@@ -162,6 +162,7 @@ public enum HeroClass {
 	private static void initHuntress( Hero hero ) {
 
 		(hero.belongings.weapon = new Knuckles()).identify();
+
 		Boomerang boomerang = new Boomerang();
 		boomerang.identify().collect();
 

@@ -25,6 +25,7 @@ import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
+import com.shatteredpixel.shatteredpixeldungeon.items.Rope;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.watabou.utils.Bundlable;
@@ -36,6 +37,7 @@ import java.util.Iterator;
 public class Bag extends Item implements Iterable<Item> {
 
 	public static final String AC_OPEN	= "OPEN";
+	public Rope rope = null;
 	
 	{
 		image = 11;
