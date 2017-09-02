@@ -48,17 +48,24 @@ import com.watabou.utils.Random;
 public class Chasm {
 
 	public static boolean jumpConfirmed = false;
+	public static boolean hasRope = false;
 	
 	public static void heroJump( final Hero hero ) {
 		GameScene.show(
 			new WndOptions( Messages.get(Chasm.class, "chasm"),
 						Messages.get(Chasm.class, "jump"),
 						Messages.get(Chasm.class, "yes"),
-						Messages.get(Chasm.class, "no") ) {
+						Messages.get(Chasm.class, "no"),
+						Messages.get(Chasm.class, "userope")) {
 				@Override
 				protected void onSelect( int index ) {
 					if (index == 0) {
 						jumpConfirmed = true;
+						hero.resume();
+					}
+					if (index == 3 && (hero.belongings.backpack.rope != null)) {
+						jumpConfirmed = true;
+						hasRope = true;
 						hero.resume();
 					}
 				}
@@ -94,7 +101,7 @@ public class Chasm {
 		
 		Hero hero = Dungeon.hero;
 		// if the hero has a rope, no damage, rope deleted from items
-		if(hero.belongings.backpack.rope != null){
+		if(hasRope){
 			Camera.main.shake( 4, 0.2f );
 			Dungeon.level.press( hero.pos, hero );
 			hero.belongings.backpack.rope.execute(hero, "DESCEND");
