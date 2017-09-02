@@ -98,7 +98,6 @@ public class Assets {
 	public static final String GUARD    = "guard.png";
 
 	public static final String ITEMS	        = "items.png";
-	public static final String ROPE				= "rope.png";
 	public static final String TERRAIN_FEATURES	= "terrain_features.png";
 	
 	public static final String TILES_SEWERS	= "tiles_sewers.png";
