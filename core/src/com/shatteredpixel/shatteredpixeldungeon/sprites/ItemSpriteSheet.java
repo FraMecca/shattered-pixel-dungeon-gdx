@@ -125,7 +125,7 @@ public class ItemSpriteSheet {
 		assignItemRect(MASTERY,         13, 16);
 		assignItemRect(KIT,             16, 15);
 		assignItemRect(AMULET,          16, 16);
-		assignItemRect(ROPE, 16, 16);
+		assignItemRect(ROPE,            16, 16);
 
 	}
 

@@ -184,6 +184,7 @@ public abstract class Level implements Bundlable {
 				addItemToSpawn( new Stylus() );
 				Dungeon.LimitedDrops.ARCANE_STYLI.count++;
 			}
+			System.out.println("[ROPE] Adding a rope! ");
 			addItemToSpawn( new Rope());
 
 			DriedRose rose = Dungeon.hero.belongings.getItem( DriedRose.class );

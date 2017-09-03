@@ -53,7 +53,6 @@ public class Rope extends Item {
 	
 	@Override
 	public void execute( Hero hero, String action ) {
-// TODO determine if useful in this case
 		super.execute( hero, action );
 
 		if (action.equals( AC_DESCEND )) {
@@ -69,18 +68,20 @@ public class Rope extends Item {
 
 	@Override
 	public boolean doPickUp( Hero hero ) {
-		if (collect( hero.belongings.backpack )) {
+		if (hero.belongings.backpack.rope == null) {
+			if (collect(hero.belongings.backpack)) {
 
-			hero.belongings.backpack.rope = this;
-			GameScene.pickUp( this );
-			Sample.INSTANCE.play( Assets.SND_ITEM );
-			hero.spendAndNext( TIME_TO_PICK_UP );
-			return true;
+				hero.belongings.backpack.rope = this;
+				GameScene.pickUp(this);
+				Sample.INSTANCE.play(Assets.SND_ITEM);
+				hero.spendAndNext(TIME_TO_PICK_UP);
+				return true;
 
-		} else {
-			return false;
+			}
 		}
+		return false;
 	}
+
 	@Override
 	public boolean isUpgradable() {
 		return false;

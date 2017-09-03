@@ -55,15 +55,15 @@ public class Chasm {
 			new WndOptions( Messages.get(Chasm.class, "chasm"),
 						Messages.get(Chasm.class, "jump"),
 						Messages.get(Chasm.class, "yes"),
-						Messages.get(Chasm.class, "no"),
-						Messages.get(Chasm.class, "userope")) {
+						Messages.get(Chasm.class, "userope"),
+						Messages.get(Chasm.class, "no")) {
 				@Override
 				protected void onSelect( int index ) {
 					if (index == 0) {
 						jumpConfirmed = true;
 						hero.resume();
 					}
-					if (index == 3 && (hero.belongings.backpack.rope != null)) {
+					if (index == 1 && hero.belongings.backpack.rope != null){
 						jumpConfirmed = true;
 						hasRope = true;
 						hero.resume();
