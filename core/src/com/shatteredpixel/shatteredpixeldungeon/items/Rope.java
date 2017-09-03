@@ -37,7 +37,7 @@ public class Rope extends Item {
 	public static final float TIME_TO_DESCEND = 1;
 
 	{
-		//image = ItemSpriteSheet.ROPE;
+		image = ItemSpriteSheet.ROPE;
 		
 		stackable = true;
 		
