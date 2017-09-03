@@ -37,7 +37,7 @@ public class Rope extends Item {
 	public static final float TIME_TO_DESCEND = 1;
 
 	{
-		image = ItemSpriteSheet.ROPE;
+		//image = ItemSpriteSheet.ROPE;
 		
 		stackable = true;
 		
@@ -93,7 +93,7 @@ public class Rope extends Item {
 	
 	@Override
 	public int price() {
-		return 200 * quantity;
+		return 10 * quantity;
 	}
 
 }
