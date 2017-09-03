@@ -104,11 +104,12 @@ public class EtherealChains extends Artifact {
 			if (target != null && (Dungeon.level.visited[target] || Dungeon.level.mapped[target])){
 
 				//chains cannot be used to go where it is impossible to walk to
-				PathFinder.buildDistanceMap(target, BArray.or(Level.passable, Level.avoid, null));
-				if (PathFinder.distance[curUser.pos] == Integer.MAX_VALUE){
+				//PathFinder.buildDistanceMap(target, BArray.or(Level.passable, Level.avoid, null));
+				/*if (PathFinder.distance[curUser.pos] == Integer.MAX_VALUE){
 					GLog.w( Messages.get(EtherealChains.class, "cant_reach") );
 					return;
-				}
+				}*/
+				// Now you can
 				
 				final Ballistica chain = new Ballistica(curUser.pos, target, Ballistica.STOP_TARGET);
 				
