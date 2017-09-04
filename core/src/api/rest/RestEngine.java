@@ -10,6 +10,7 @@ public class RestEngine extends Application<api.rest.AppConfig> implements Runna
 
     final public HeroApi heroApi = new HeroApi();
     final public ItemApi itemApi = new ItemApi();
+    final public MultiplayerApi multipApi = new MultiplayerApi();
     // do not forget to add the to jersey().enironment
 
 //    public static final Logger LOGGER = LoggerFactory.getLogger(RApplication.class);
@@ -29,6 +30,7 @@ public class RestEngine extends Application<api.rest.AppConfig> implements Runna
             throws Exception {
         environment.jersey().register(this.heroApi);
         environment.jersey().register(this.itemApi);
+        environment.jersey().register(this.multipApi);
 
        // LOGGER.info("Application name: {}", configuration.getAppName());
     }

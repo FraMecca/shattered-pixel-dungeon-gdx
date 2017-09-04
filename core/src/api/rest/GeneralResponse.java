@@ -7,7 +7,11 @@ public class GeneralResponse {
     private String name;
     private String attr;
 
-    public GeneralResponse(){};
+    public GeneralResponse(String multiplayer, String up){
+        this.id = 0;
+        this.name = multiplayer;
+        this.attr = up;
+    };
 
     public GeneralResponse(String name, String attr, long id) {
         this.id = id;
@@ -24,6 +28,7 @@ public class GeneralResponse {
     public String getAttr(){
         return this.attr;
     }
+
     @JsonProperty
     public String getName(){
         return this.name;

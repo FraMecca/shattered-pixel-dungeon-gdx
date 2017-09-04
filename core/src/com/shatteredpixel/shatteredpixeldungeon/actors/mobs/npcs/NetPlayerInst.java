@@ -1,29 +1,52 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs;
 
+import api.rest.RestSharedData;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Rat;
 import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfTeleportation;
 import com.shatteredpixel.shatteredpixeldungeon.levels.Level;
 import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.BlacksmithSprite;
-import com.shatteredpixel.shatteredpixeldungeon.sprites.MirrorSprite;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.*;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 import com.watabou.utils.Signal;
 
 import java.util.ArrayList;
 
-public class NetPlayerInst  extends MirrorImage implements Signal.RestListener {
-
-    {
-        spriteClass = MirrorSprite.class;
-
-        state = PASSIVE;
-    }
+public class NetPlayerInst  extends NPC implements Signal.RestListener {
 
     // instance for each other player on LAN
-    @Override
+    {
+        //spriteClass = NetPlayerWarriorSprite.class;
+        state = PASSIVE;
+
+    }
+
+    public NetPlayerInst (HeroClass heroCl) {
+        super ();
+        switch (heroCl) {
+            case MAGE:
+                this.spriteClass = NetPlayerMageSprite.class;
+                break;
+            case WARRIOR:
+                this.spriteClass = NetPlayerWarriorSprite.class;
+                break;
+            case ROGUE:
+                this.spriteClass = NetPlayerRogueSprite.class;
+                break;
+            case HUNTRESS:
+                this.spriteClass = NetPlayerHuntressSprite.class;
+                break;
+        }
+
+        RestSharedData.getRestIstance().multipApi.add(this);
+
+    }
+
+    //@Override
     public boolean interact() {
         return false;
     }
@@ -38,12 +61,10 @@ public class NetPlayerInst  extends MirrorImage implements Signal.RestListener {
 
     }
 
-    public static int spawnImages(Hero hero, int nImages){
-        return spawnImages(hero, nImages, hero.pos);
-    }
-    public static int spawnImages(Hero hero, int nImages, int pos){
-        // Same as scroll of mirror images, but spawn instances of this class
+    public static int spawnImages(HeroClass heroCl, int nImages){
+        // Same as scroll of mirror images, but spawn instances of this classA
 
+        int pos = Dungeon.hero.pos;
         ArrayList<Integer> respawnPoints = new ArrayList<Integer>();
 
         for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
@@ -57,7 +78,7 @@ public class NetPlayerInst  extends MirrorImage implements Signal.RestListener {
         while (nImages > 0 && respawnPoints.size() > 0) {
             int index = Random.index( respawnPoints );
 
-            NetPlayerInst mob = new NetPlayerInst();
+            NetPlayerInst mob = new NetPlayerInst(heroCl);
             GameScene.add( mob );
             ScrollOfTeleportation.appear( mob, respawnPoints.get( index ) );
 
@@ -68,30 +89,45 @@ public class NetPlayerInst  extends MirrorImage implements Signal.RestListener {
 
         return spawned;
     }
-    static enum Action {UP, DOWN, RIGHT, LEFT}
+
+    public void move (int from, int to) {
+        // not sure if useful,
+        // but move
+        // move sprite,
+        // stop motion
+
+        this.pos = pos;
+        super.move(to);
+        this.moveSprite(from, to);
+        this.sprite.idle();
+    }
+
+    public static enum ACTION {UP, DOWN, RIGHT, LEFT}
     @Override
     public void onSignal(Object o) {
-        if (o instanceof Action) {
-            Action action = (Action) o;
+        if (o instanceof ACTION) {
+            ACTION action = (ACTION) o;
+            System.out.println(action);
+            int oldPos = this.pos;
             switch (action) {
                 case UP:
-                    int pos = Dungeon.level.height() + this.pos;
-                    super.move(pos);
+                    this.pos = Dungeon.level.height() + this.pos;
+                    this.move(oldPos, this.pos);
                     break;
 
                 case DOWN:
-                    pos = -Dungeon.level.height() + this.pos;
-                    super.move(pos);
+                    this.pos = -Dungeon.level.height() + this.pos;
+                    this.move(oldPos, this.pos);
                     break;
 
                 case RIGHT:
-                    pos = this.pos + 1;
-                    super.move(pos);
+                    this.pos = this.pos + 1;
+                    this.move(oldPos, this.pos);
                     break;
 
                 case LEFT:
-                    pos = this.pos - 1;
-                    super.move(pos);
+                    this.pos = this.pos - 1;
+                    this.move(oldPos, this.pos);
                     break;
 
             }
