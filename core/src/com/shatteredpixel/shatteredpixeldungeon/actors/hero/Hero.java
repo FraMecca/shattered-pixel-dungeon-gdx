@@ -1803,4 +1803,9 @@ public class Hero extends Char implements Signal.RestListener {
 					break;
 			}
 	}
+
+	@Override
+	public boolean checkId(String id) {
+		return this.name.equals(id);
+	}
 }

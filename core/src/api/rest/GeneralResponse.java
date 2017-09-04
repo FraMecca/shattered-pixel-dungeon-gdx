@@ -7,10 +7,10 @@ public class GeneralResponse {
     private String name;
     private String attr;
 
-    public GeneralResponse(String multiplayer, String up){
+    public GeneralResponse(String name, String attr){
         this.id = 0;
-        this.name = multiplayer;
-        this.attr = up;
+        this.name = name;
+        this.attr = attr;
     };
 
     public GeneralResponse(String name, String attr, long id) {

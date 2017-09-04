@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 public class NetPlayerInst  extends NPC implements Signal.RestListener {
 
+    protected String apiId;
     // instance for each other player on LAN
     {
         //spriteClass = NetPlayerWarriorSprite.class;
@@ -25,7 +26,7 @@ public class NetPlayerInst  extends NPC implements Signal.RestListener {
 
     }
 
-    public NetPlayerInst (HeroClass heroCl) {
+    public NetPlayerInst (HeroClass heroCl, String name) {
         super ();
         switch (heroCl) {
             case MAGE:
@@ -41,6 +42,8 @@ public class NetPlayerInst  extends NPC implements Signal.RestListener {
                 this.spriteClass = NetPlayerHuntressSprite.class;
                 break;
         }
+
+        this.apiId = name;
 
         RestSharedData.getRestIstance().multipApi.add(this);
 
@@ -61,9 +64,15 @@ public class NetPlayerInst  extends NPC implements Signal.RestListener {
 
     }
 
-    public static int spawnImages(HeroClass heroCl, int nImages){
+    @Override
+    public boolean checkId(String id) {
+        return this.apiId.equals(id);
+    }
+
+    public static int spawnImages(HeroClass heroCl, String name){
         // Same as scroll of mirror images, but spawn instances of this classA
 
+        int nImages = 1;
         int pos = Dungeon.hero.pos;
         ArrayList<Integer> respawnPoints = new ArrayList<Integer>();
 
@@ -78,7 +87,7 @@ public class NetPlayerInst  extends NPC implements Signal.RestListener {
         while (nImages > 0 && respawnPoints.size() > 0) {
             int index = Random.index( respawnPoints );
 
-            NetPlayerInst mob = new NetPlayerInst(heroCl);
+            NetPlayerInst mob = new NetPlayerInst(heroCl, name);
             GameScene.add( mob );
             ScrollOfTeleportation.appear( mob, respawnPoints.get( index ) );
 

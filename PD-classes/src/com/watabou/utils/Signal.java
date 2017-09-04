@@ -88,6 +88,24 @@ public class Signal<T> {
 		}
 	}
 
+	public synchronized void dispatchTarget (String id, T t) {
+		// only for RestListeners
+		// could hash, iterate given that there are few elements
+		RestListener<T>[] list = listeners.toArray( new RestListener[0] );
+
+		canceled = false;
+		for (RestListener<T> listener : list) {
+
+			if (listener.checkId (id) == true && listeners.contains(listener)) {
+				listener.onSignal(t);
+				if (canceled) {
+					return;
+				}
+			}
+
+		}
+	}
+
 	public synchronized void valueDispatch(T t, Integer n) {
 
 		@SuppressWarnings("unchecked")
@@ -118,5 +136,6 @@ public class Signal<T> {
 	public static interface RestListener<T> extends Listener {
 		public Object signalAndGet(T t);
 		public void onSignal (T t, Integer i);
+		public boolean checkId (String id);
 	}
 }

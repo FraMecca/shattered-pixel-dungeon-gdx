@@ -1,7 +1,6 @@
 package api.rest;
 
 import com.codahale.metrics.annotation.Timed;
-import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NetPlayerInst;
 
@@ -16,67 +15,78 @@ import java.util.Optional;
 @Produces(MediaType.APPLICATION_JSON)
 public class MultiplayerApi extends APIAbstract {
 
+    private static Integer nPlayers = 0;
+
+    public static String getnPlayers () {
+        return nPlayers.toString ();
+    }
+
     @GET
     @Path("/spawn/rogue")
     @Timed
-    public GeneralResponse spawnRogue(@QueryParam("n") Optional<Integer> n) {
-        NetPlayerInst.spawnImages(HeroClass.ROGUE, n.orElse(1));
-        return new GeneralResponse("Hero", "rogue", n.orElse(1));
+    public GeneralResponse spawnRogue(@QueryParam("id") Optional<String> n) {
+        nPlayers++;
+        NetPlayerInst.spawnImages(HeroClass.ROGUE, n.orElse(getnPlayers()));
+        // use name or count as identification for api
+        return new GeneralResponse(n.orElse(getnPlayers()), "rogue", 0L);
     }
 
     @GET
     @Path("/spawn/warrior")
     @Timed
-    public GeneralResponse spawnWarrior(@QueryParam("n") Optional<Integer> n) {
-        NetPlayerInst.spawnImages(HeroClass.WARRIOR, n.orElse(1));
-        return new GeneralResponse("Hero", "warrior", n.orElse(1));
+    public GeneralResponse spawnWarrior(@QueryParam("id") Optional<String> n) {
+        nPlayers++;
+        NetPlayerInst.spawnImages(HeroClass.WARRIOR, n.orElse(getnPlayers()));
+        return new GeneralResponse(n.orElse(getnPlayers()), "warrior", 0L);
     }
 
     @GET
     @Path("/spawn/huntress")
     @Timed
-    public GeneralResponse spawnHuntress(@QueryParam("n") Optional<Integer> n) {
-        NetPlayerInst.spawnImages(HeroClass.HUNTRESS, n.orElse(1));
-        return new GeneralResponse("Hero", "huntress", n.orElse(1));
+    public GeneralResponse spawnHuntress(@QueryParam("id") Optional<String> n) {
+        nPlayers++;
+        NetPlayerInst.spawnImages(HeroClass.HUNTRESS, n.orElse(getnPlayers()));
+        return new GeneralResponse(n.orElse(getnPlayers()), "huntress", 0L);
     }
 
     @GET
     @Path("/spawn/mage")
     @Timed
-    public GeneralResponse spawnmage(@QueryParam("n") Optional<Integer> n) {
-        NetPlayerInst.spawnImages(HeroClass.MAGE, n.orElse(1));
-        return new GeneralResponse("Hero", "mage", n.orElse(1));
+    public GeneralResponse spawnmage(@QueryParam("id") Optional<String> n) {
+        nPlayers++;
+        NetPlayerInst.spawnImages(HeroClass.MAGE, n.orElse(getnPlayers()));
+        return new GeneralResponse(n.orElse(getnPlayers()), "mage", 0L);
     }
 
     @GET
     @Path("/move/up")
     @Timed
-    public GeneralResponse up() {
-        this.dispatch (NetPlayerInst.ACTION.UP);
-        return new GeneralResponse("Multiplayer", "up");
+    public GeneralResponse up(@QueryParam("id") String id) {
+        this.dispatchTarget (id, NetPlayerInst.ACTION.UP);
+        return new GeneralResponse(id, "up");
     }
 
     @GET
     @Path("/move/down")
     @Timed
-    public GeneralResponse down() {
-        this.dispatch (NetPlayerInst.ACTION.DOWN);
-        return new GeneralResponse("Multiplayer", "down");
+    public GeneralResponse down(@QueryParam("id") String id) {
+        this.dispatchTarget (id, NetPlayerInst.ACTION.DOWN);
+        return new GeneralResponse(id, "down");
     }
 
     @GET
     @Path("/move/right")
     @Timed
-    public GeneralResponse right() {
-        this.dispatch (NetPlayerInst.ACTION.RIGHT);
-        return new GeneralResponse("Multiplayer", "right");
+    public GeneralResponse right(@QueryParam("id") String id) {
+        this.dispatchTarget (id, NetPlayerInst.ACTION.RIGHT);
+        return new GeneralResponse(id, "right");
     }
 
     @GET
     @Path("/move/left")
     @Timed
-    public GeneralResponse left() {
-        this.dispatch (NetPlayerInst.ACTION.LEFT);
-        return new GeneralResponse("Multiplayer", "left");
+    public GeneralResponse left(@QueryParam("id") String id) {
+        this.dispatchTarget (id, NetPlayerInst.ACTION.LEFT);
+        return new GeneralResponse(id, "left");
     }
 }

@@ -34,6 +34,10 @@ public abstract class APIAbstract {
         signal.dispatch(st);
     }
 
+    public void dispatchTarget (String id, Object st) {
+        signal.dispatchTarget(id, st);
+    }
+
     public Object returningDispatch (Object st) {return signal.returningDispatch(st, 0);}
 
 }
