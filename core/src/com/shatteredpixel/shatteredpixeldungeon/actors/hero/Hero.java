@@ -46,6 +46,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NetPlayerInst;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
@@ -176,7 +177,7 @@ public class Hero extends Char implements Signal.RestListener {
 	public ArrayList<Mob> mindVisionEnemies = new ArrayList<>();
 
 	public Hero() {
-		super();
+		//super();
 		RestSharedData.getRestIstance().heroApi.add(this);
 		RestSharedData.getRestIstance().itemApi.add(this);
 
@@ -189,9 +190,20 @@ public class Hero extends Char implements Signal.RestListener {
 		belongings = new Belongings( this );
 		
 		visibleEnemies = new ArrayList<Mob>();
-
 	}
-	
+
+	public Hero(HeroClass hcl) {
+		// method to instanciate a fake hero used for npc in multiplayer
+		//super();
+
+		name = Messages.get(this, "name");
+		this.heroClass = hcl;
+
+		HP = HT = 20; // HT is current health, HP is maximum health
+		STR = STARTING_STR;
+		awareness = 0.1f;
+	}
+
 	public void updateHT( boolean boostHP ){
 		int curHT = HT;
 		

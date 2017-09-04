@@ -190,7 +190,22 @@ public enum HeroClass {
 		
 		return null;
 	}
-	
+
+	public static String spritesheet(HeroClass h) {
+
+		switch (h) {
+			case WARRIOR:
+				return Assets.WARRIOR;
+			case MAGE:
+				return Assets.MAGE;
+			case ROGUE:
+				return Assets.ROGUE;
+			case HUNTRESS:
+				return Assets.HUNTRESS;
+		}
+
+		return null;
+	}
 	public String[] perks() {
 		
 		switch (this) {

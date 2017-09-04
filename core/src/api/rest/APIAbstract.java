@@ -19,6 +19,7 @@ public abstract class APIAbstract {
     public void add (Signal.Listener el) {
         System.out.println(el);
         this.signal.add(el);
+        this.listeners.add(el);
     }
 
     public void dispatch (Object st, Optional<Integer> n) {

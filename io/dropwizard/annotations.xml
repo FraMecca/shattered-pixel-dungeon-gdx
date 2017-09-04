@@ -1,0 +1,5 @@
+<root>
+    <item name='io.dropwizard.Configuration'>
+        <annotation name='java.lang.Deprecated'/>
+    </item>
+</root>

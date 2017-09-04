@@ -10,6 +10,11 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero.ACTION;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NetPlayerInst;
+import com.shatteredpixel.shatteredpixeldungeon.items.scrolls.ScrollOfMirrorImage;
+import com.shatteredpixel.shatteredpixeldungeon.scenes.GameScene;
+import com.shatteredpixel.shatteredpixeldungeon.sprites.HeroSprite;
 
 import java.util.Optional;
 
@@ -191,6 +196,22 @@ public class HeroApi extends APIAbstract {
     public GeneralResponse expDecrease(@QueryParam("n") Optional<Integer> n) {
         this.dispatch(ACTION.DECEXP, n);
         return new GeneralResponse("Hero", "exp", -n.orElse(1));
+    }
+
+    @GET
+    @Path("/debug/spawn")
+    @Timed
+    public GeneralResponse spawn(@QueryParam("n") Optional<Integer> n) {
+        NetPlayerInst.spawnImages((Hero) listeners.get(0), n.orElse(1));
+        return new GeneralResponse("Hero", "Hero", n.orElse(1));
+    }
+
+    @GET
+    @Path("/debug/spawn/rogue")
+    @Timed
+    public GeneralResponse spawnRogue(@QueryParam("n") Optional<Integer> n) {
+        NetPlayerInst.spawnImages(new Hero (HeroClass.ROGUE), n.orElse(1), ((Hero) listeners.get(0)).pos);
+        return new GeneralResponse("Hero", "Rogue", n.orElse(1));
     }
 
 }
