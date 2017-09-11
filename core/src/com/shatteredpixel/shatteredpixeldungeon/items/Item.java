@@ -30,6 +30,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Combo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NetPlayerInst;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.items.bags.Bag;
 import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Boomerang;
@@ -113,7 +114,20 @@ public class Item implements Bundlable {
 			return false;
 		}
 	}
-	
+
+	public boolean doPickUp( NetPlayerInst hero ) {
+		if (collect( hero.belongings.backpack )) {
+
+			GameScene.pickUp( this );
+			Sample.INSTANCE.play( Assets.SND_ITEM );
+			hero.spendAndNext( TIME_TO_PICK_UP );
+			return true;
+
+		} else {
+			return false;
+		}
+	}
+
 	public void doDrop( Hero hero ) {
 		hero.spendAndNext( TIME_TO_DROP );
 		Dungeon.level.drop( detachAll( hero.belongings.backpack ), hero.pos ).sprite.drop( hero.pos );

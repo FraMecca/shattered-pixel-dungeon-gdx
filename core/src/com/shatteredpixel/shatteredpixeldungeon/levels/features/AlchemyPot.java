@@ -22,6 +22,7 @@ package com.shatteredpixel.shatteredpixeldungeon.levels.features;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NetPlayerInst;
 import com.shatteredpixel.shatteredpixeldungeon.items.Heap;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
 import com.shatteredpixel.shatteredpixeldungeon.items.food.Blandfruit;
@@ -41,7 +42,7 @@ public class AlchemyPot {
 	public static Item curItem = null;
 	
 	public static void operate( Hero hero, int pos ) {
-		
+
 		AlchemyPot.hero = hero;
 		AlchemyPot.pos = pos;
 
@@ -74,7 +75,42 @@ public class AlchemyPot {
 		if (!foundFruit)
 			GameScene.selectItem(itemSelector, WndBag.Mode.SEED, Messages.get(AlchemyPot.class, "select_seed"));
 	}
-	
+
+	public static void operate(NetPlayerInst hero, int pos ) {
+
+//		AlchemyPot.hero = hero;
+		AlchemyPot.pos = pos;
+
+		Iterator<Item> items = hero.belongings.iterator();
+		foundFruit = false;
+		Heap heap = Dungeon.level.heaps.get( pos );
+
+		if (heap == null)
+			while (items.hasNext() && !foundFruit){
+				curItem = items.next();
+				if (curItem instanceof Blandfruit && ((Blandfruit) curItem).potionAttrib == null){
+					GameScene.show(
+							new WndOptions(Messages.get(AlchemyPot.class, "pot"),
+									Messages.get(AlchemyPot.class, "options"),
+									Messages.get(AlchemyPot.class, "fruit"),
+									Messages.get(AlchemyPot.class, "potion")) {
+								@Override
+								protected void onSelect(int index) {
+									if (index == 0) {
+										curItem.cast( AlchemyPot.hero, AlchemyPot.pos );
+									} else
+										GameScene.selectItem(itemSelector, WndBag.Mode.SEED, Messages.get(AlchemyPot.class, "select_seed"));
+								}
+							}
+					);
+					foundFruit = true;
+				}
+			}
+
+		if (!foundFruit)
+			GameScene.selectItem(itemSelector, WndBag.Mode.SEED, Messages.get(AlchemyPot.class, "select_seed"));
+	}
+
 	private static final WndBag.Listener itemSelector = new WndBag.Listener() {
 		@Override
 		public void onSelect( Item item ) {
