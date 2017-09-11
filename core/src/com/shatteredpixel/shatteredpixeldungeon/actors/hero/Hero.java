@@ -45,6 +45,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.DumpFields;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NetPlayerInst;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
@@ -1518,7 +1519,7 @@ public class Hero extends Char implements Signal.RestListener {
 	
 	public boolean search( boolean intentional ) {
 
-
+		DumpFields.inspect(this);
 		boolean smthFound = false;
 
 		int positive = 0;
