@@ -1518,8 +1518,7 @@ public class Hero extends Char implements Signal.RestListener {
 	}
 	
 	public boolean search( boolean intentional ) {
-
-		DumpFields.inspect(this);
+		DumpFields.dumpAsJSON(this);
 		boolean smthFound = false;
 
 		int positive = 0;

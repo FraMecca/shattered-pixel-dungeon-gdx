@@ -102,6 +102,7 @@ project(":core") {
 		compile group: 'io.dropwizard', name: 'dropwizard-core', version: '1.1.2'
 		compile "com.badlogicgames.gdx:gdx:$gdxVersion"
 		compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
+		compile "com.google.code.gson:gson:2.8.1"
 	}
 }
 
