@@ -1,7 +1,8 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs;
+import net.sf.json.JSONObject;
+
 import java.lang.reflect.*;
 import java.util.HashMap;
-import com.google.gson.Gson;
 
 public class DumpFields {
 
@@ -24,10 +25,14 @@ public class DumpFields {
         }
 
         public static String dumpAsJSON (Object obj) {
-            Gson g = new Gson();
-            String json = g.toJson(obj);
+            // the hashmap from inspect()
+            // is put into a json
+            JSONObject json = new JSONObject();
+            json.putAll(inspect(obj));
             System.out.println(json);
-            return json;
+            return json.toString();
         }
+
+        
 }
 
