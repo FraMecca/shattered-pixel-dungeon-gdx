@@ -23,7 +23,9 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.Bundle;
 
-public enum HeroSubClass {
+import java.io.Serializable;
+
+public enum HeroSubClass implements Serializable{
 
 	NONE( null ),
 	

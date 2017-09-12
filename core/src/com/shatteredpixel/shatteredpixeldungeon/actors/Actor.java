@@ -30,9 +30,10 @@ import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.SparseArray;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
-public abstract class Actor implements Bundlable {
+public abstract class Actor implements Bundlable, Serializable{
 	
 	public static final float TICK	= 1f;
 

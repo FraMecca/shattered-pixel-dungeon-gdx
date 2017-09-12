@@ -32,9 +32,11 @@ import com.shatteredpixel.shatteredpixeldungeon.utils.GLog;
 import com.shatteredpixel.shatteredpixeldungeon.windows.WndBag;
 import com.watabou.noosa.audio.Sample;
 
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Stylus extends Item {
+public class Stylus extends Item implements Serializable {
 	
 	private static final float TIME_TO_INSCRIBE = 2;
 	
@@ -116,4 +118,9 @@ public class Stylus extends Item {
 			}
 		}
 	};
+
+	private void writeObject(java.io.ObjectOutputStream stream)
+            throws IOException {
+        stream.writeObject(name);
+    }
 }

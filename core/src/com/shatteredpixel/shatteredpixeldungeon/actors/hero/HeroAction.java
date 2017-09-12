@@ -23,7 +23,9 @@ package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
 
-public class HeroAction {
+import java.io.Serializable;
+
+public class HeroAction implements Serializable{
 	
 	public int dst;
 	

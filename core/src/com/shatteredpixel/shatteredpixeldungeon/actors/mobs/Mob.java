@@ -70,12 +70,12 @@ public abstract class Mob extends Char {
 	protected static final String TXT_RAGE		= "#$%^";
 	protected static final String TXT_EXP		= "%+dEXP";
 
-	public AiState SLEEPING     = new Sleeping();
-	public AiState HUNTING		= new Hunting();
-	public AiState WANDERING	= new Wandering();
-	public AiState FLEEING		= new Fleeing();
-	public AiState PASSIVE		= new Passive();
-	public AiState state = SLEEPING;
+	public transient AiState SLEEPING     = new Sleeping();
+	public transient AiState HUNTING		= new Hunting();
+	public transient AiState WANDERING	= new Wandering();
+	public transient AiState FLEEING		= new Fleeing();
+	public transient AiState PASSIVE		= new Passive();
+	public transient AiState state = SLEEPING;
 	
 	public Class<? extends CharSprite> spriteClass;
 	

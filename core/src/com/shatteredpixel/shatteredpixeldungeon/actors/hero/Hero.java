@@ -45,9 +45,8 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Regeneration;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SnipersMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.DumpFields;
+import api.rest.DumpFields;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NetPlayerInst;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
@@ -120,16 +119,14 @@ import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.*;
 
-import javax.validation.executable.ValidateOnExecution;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 
-import static com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero.ACTION.DECDEF;
-
-public class Hero extends Char implements Signal.RestListener {
+public class Hero extends Char implements Signal.RestListener, Serializable{
 
 	{
 		actPriority = 0; //acts at priority 0, baseline for the rest of behaviour.
@@ -1520,14 +1517,7 @@ public class Hero extends Char implements Signal.RestListener {
 	}
 	
 	public boolean search( boolean intentional ) {
-		try {
-			Socket s = new Socket("127.0.0.1", 8888);
-			DumpFields.relayStatus(this, s);
-			System.out.println("Sent status");
-			s.close();
-		} catch (IOException e ){
-			System.out.println("Error opening socket: " + e.getMessage());
-		}
+		DumpFields.relayStatus(this);
 		boolean smthFound = false;
 
 		int positive = 0;

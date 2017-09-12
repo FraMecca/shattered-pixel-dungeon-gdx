@@ -53,13 +53,14 @@ import com.watabou.utils.GameMath;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 
+import java.io.Serializable;
 import java.util.HashSet;
 
-public abstract class Char extends Actor {
+public abstract class Char extends Actor implements Serializable{
 	
 	public int pos = 0;
 	
-	public CharSprite sprite;
+	public transient CharSprite sprite;
 	
 	public String name = "mob";
 	

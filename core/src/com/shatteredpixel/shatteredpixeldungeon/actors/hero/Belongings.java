@@ -37,9 +37,10 @@ import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
-public class Belongings implements Iterable<Item> {
+public class Belongings implements Iterable<Item>, Serializable {
 
 	public static final int BACKPACK_SIZE	= 20;
 	

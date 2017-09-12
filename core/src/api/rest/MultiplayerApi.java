@@ -1,6 +1,7 @@
 package api.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NetPlayerInst;
 
@@ -9,6 +10,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.util.Base64;
 import java.util.Optional;
 
 @Path("/multi")
@@ -87,6 +92,24 @@ public class MultiplayerApi extends APIAbstract {
     @Timed
     public GeneralResponse left(@QueryParam("id") String id) {
         this.dispatchTarget (id, NetPlayerInst.ACTION.LEFT);
+        return new GeneralResponse(id, "left");
+    }
+
+    @GET
+    @Path("/action")
+    @Timed
+    public GeneralResponse genericAction (@QueryParam("id") String id, @QueryParam("action") String action) {
+        try {
+            byte[] decoded = Base64.getDecoder().decode(action);
+            ByteArrayInputStream dc = new ByteArrayInputStream(decoded);
+            ObjectInputStream in = new ObjectInputStream(dc);
+            Hero h = (Hero) in.readObject();
+            System.out.println(h);
+        } catch (Exception e) {
+            System.err.println("Error deserializing: " + e.getMessage());
+        }
+
+            this.dispatchTarget (id, NetPlayerInst.ACTION.LEFT);
         return new GeneralResponse(id, "left");
     }
 }

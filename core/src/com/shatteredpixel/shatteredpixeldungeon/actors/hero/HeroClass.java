@@ -42,7 +42,9 @@ import com.shatteredpixel.shatteredpixeldungeon.items.weapon.missiles.Dart;
 import com.shatteredpixel.shatteredpixeldungeon.messages.Messages;
 import com.watabou.utils.Bundle;
 
-public enum HeroClass {
+import java.io.Serializable;
+
+public enum HeroClass implements Serializable{
 
 	WARRIOR( "warrior" ),
 	MAGE( "mage" ),
