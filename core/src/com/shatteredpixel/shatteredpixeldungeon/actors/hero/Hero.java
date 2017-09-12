@@ -121,6 +121,8 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.*;
 
 import javax.validation.executable.ValidateOnExecution;
+import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -1518,7 +1520,14 @@ public class Hero extends Char implements Signal.RestListener {
 	}
 	
 	public boolean search( boolean intentional ) {
-		DumpFields.dumpAsJSON(this);
+		try {
+			Socket s = new Socket("127.0.0.1", 8888);
+			DumpFields.relayStatus(this, s);
+			System.out.println("Sent status");
+			s.close();
+		} catch (IOException e ){
+			System.out.println("Error opening socket: " + e.getMessage());
+		}
 		boolean smthFound = false;
 
 		int positive = 0;
