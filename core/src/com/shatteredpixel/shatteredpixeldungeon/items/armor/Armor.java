@@ -60,6 +60,7 @@ import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Armor extends EquipableItem {
@@ -421,7 +422,7 @@ public class Armor extends EquipableItem {
 		return glyph != null && (cursedKnown || !glyph.curse()) ? glyph.glowing() : null;
 	}
 	
-	public static abstract class Glyph implements Bundlable {
+	public static abstract class Glyph implements Bundlable, Serializable {
 		
 		private static final Class<?>[] glyphs = new Class<?>[]{
 				Obfuscation.class, Swiftness.class, Stone.class, Potential.class,

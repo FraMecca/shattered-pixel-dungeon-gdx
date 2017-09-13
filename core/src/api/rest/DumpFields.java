@@ -6,8 +6,14 @@ import java.lang.reflect.*;
 import java.net.Socket;
 import java.util.Base64;
 import java.util.HashMap;
+import org.zeromq.*;
+import org.zeromq.ZMQ.*;
 
 public class DumpFields {
+
+    static final Context context = ZMQ.context(1);
+    static final ZMQ.Socket client = context.socket(ZMQ.REQ);
+    static public boolean connected = false;
 
     public static <T> HashMap<String, Object> inspect(Object obj) {
         Class<?> klazz = obj.getClass();
@@ -49,15 +55,22 @@ public class DumpFields {
         return encoded;
     }
 
+    public static void connect () {
+        if (!connected) {
+            client.connect("tcp://localhost:5555");
+            connected = true;
+        }
+    }
+
     public static boolean relayStatus (Object obj) {
+        connect();
         try {
             byte[] data = getStatus(obj);
-            Socket s = new Socket("127.0.0.1", 8888);
-            OutputStream out = s.getOutputStream();
-            DataOutputStream printer = new DataOutputStream(out);
-            printer.write(data);
+            client.send(data);
             System.out.println("Sent status");
-            s.close();
+            // zeromq must recv an ack in order to unlock status when client / server comm link
+            byte[] rec = client.recv();
+            System.out.println(rec);
             return true;
         } catch (Exception e) {
             System.err.println("Can't send status: " + e.getMessage());

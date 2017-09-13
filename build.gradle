@@ -102,6 +102,7 @@ project(":core") {
 		compile "com.badlogicgames.gdx:gdx:$gdxVersion"
 		compile "com.badlogicgames.gdx:gdx-controllers:$gdxVersion"
 		compile group: 'net.sf.json-lib', name: 'json-lib', version: '2.4', classifier: 'jdk15'
+		compile "org.zeromq:jeromq:0.4.2"
 
 	}
 }

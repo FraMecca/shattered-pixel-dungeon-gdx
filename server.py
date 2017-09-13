@@ -1,19 +1,22 @@
 import sys, socket
+import zmq
+import time
 
-HOST = ''
-PORT = 8888
 
-s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# try:
-s.bind((HOST,PORT))
-# except socket.error as e:
-    # print ("connection error")
-    # sys.exit()
+def main(port):
 
-s.listen(10)
+    context = zmq.Context()
+    socket = context.socket(zmq.REP)
+    socket.bind("tcp://*:" + str (port))
 
-while True:
-    conn, addr = s.accept()
-    print('Connected with ' + addr[0] + ':' + str(addr[1]))
-    msg = conn.recv(4096)
-    print(msg.decode('utf-8'))
+    while True:
+        #  Wait for next request from client
+        message = socket.recv()
+        print("Received request: %s" % message)
+
+        #  Send reply back to client
+        socket.send(b"World")
+
+if __name__ == '__main__':
+    import sys
+    main(sys.argv[1])
