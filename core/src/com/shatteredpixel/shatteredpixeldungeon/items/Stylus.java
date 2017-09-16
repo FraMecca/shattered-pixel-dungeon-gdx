@@ -110,7 +110,7 @@ public class Stylus extends Item implements Serializable {
 		return 30 * quantity;
 	}
 
-	private final WndBag.Listener itemSelector = new WndBag.Listener() {
+	private transient final WndBag.Listener itemSelector = new WndBag.Listener() {
 		@Override
 		public void onSelect( Item item ) {
 			if (item != null) {

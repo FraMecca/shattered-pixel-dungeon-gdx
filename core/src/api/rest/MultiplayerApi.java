@@ -62,7 +62,7 @@ public class MultiplayerApi extends APIAbstract {
         NetPlayerInst.spawnImages(HeroClass.MAGE, n.orElse(getnPlayers()));
         return new GeneralResponse(n.orElse(getnPlayers()), "mage", 0L);
     }
-
+    /*
     @GET
     @Path("/move/up")
     @Timed
@@ -112,4 +112,5 @@ public class MultiplayerApi extends APIAbstract {
             this.dispatchTarget (id, NetPlayerInst.ACTION.LEFT);
         return new GeneralResponse(id, "left");
     }
+    */
 }

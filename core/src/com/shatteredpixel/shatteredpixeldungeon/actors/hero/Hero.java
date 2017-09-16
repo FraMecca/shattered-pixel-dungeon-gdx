@@ -47,6 +47,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Vertigo;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.Mob;
 import api.rest.DumpFields;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NPC;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NetPlayerInst;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CellEmitter;
 import com.shatteredpixel.shatteredpixeldungeon.effects.CheckedCell;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
@@ -177,7 +178,7 @@ public class Hero extends Char implements Signal.RestListener, Serializable{
 	public ArrayList<Mob> mindVisionEnemies = new ArrayList<>();
 
 	public Hero() {
-		//super();
+		super();
 		RestSharedData.getRestIstance().heroApi.add(this);
 		RestSharedData.getRestIstance().itemApi.add(this);
 
@@ -484,7 +485,8 @@ public class Hero extends Char implements Signal.RestListener, Serializable{
 	
 	@Override
 	public boolean act() {
-		
+		System.err.println("Act was called " + curAction + "");
+
 		super.act();
 		
 		if (paralysed > 0) {
@@ -508,15 +510,15 @@ public class Hero extends Char implements Signal.RestListener, Serializable{
 			return false;
 			
 		} else {
-			
+			boolean rc = DumpFields.relayStatus(curAction);
+			System.out.println("result of relay: " + rc);
 			resting = false;
 			
 			ready = false;
 			
 			if (curAction instanceof HeroAction.Move) {
-				
 				return actMove( (HeroAction.Move)curAction );
-				
+
 			} else
 			if (curAction instanceof HeroAction.Interact) {
 
@@ -1517,7 +1519,6 @@ public class Hero extends Char implements Signal.RestListener, Serializable{
 	}
 	
 	public boolean search( boolean intentional ) {
-		DumpFields.relayStatus(this);
 		boolean smthFound = false;
 
 		int positive = 0;
@@ -1530,7 +1531,7 @@ public class Hero extends Char implements Signal.RestListener, Serializable{
 			level /= 2 - distance;
 			distance = 1;
 		}
-		
+
 		int cx = pos % Dungeon.level.width();
 		int cy = pos / Dungeon.level.width();
 		int ax = cx - distance;

@@ -20,7 +20,9 @@
  */
 package com.watabou.pd.desktop;
 
+import api.rest.Publisher;
 import api.rest.RestSharedData;
+import api.rest.Subscriber;
 import com.badlogic.gdx.Files;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
@@ -30,10 +32,12 @@ import com.shatteredpixel.shatteredpixeldungeon.Preferences;
 import com.shatteredpixel.shatteredpixeldungeon.ShatteredPixelDungeon;
 import com.watabou.input.NoosaInputProcessor;
 import com.watabou.utils.PDPlatformSupport;
+import org.lwjgl.Sys;
 
 
 public class DesktopLauncher {
 	public static void main (String[] arg) throws Exception {
+		System.out.println("Run with:" + arg[0] + " " + arg[1] );
 		String version = DesktopLauncher.class.getPackage().getSpecificationVersion();
 		if (version == null) {
 			version = "0.6.1b";
@@ -80,6 +84,9 @@ public class DesktopLauncher {
 		// Start REST server in a secondary thread
 		Thread th = new Thread(RestSharedData.getRestIstance());
 		th.start();
+		Publisher.initialize (new Integer(arg[0]));
+		Subscriber sub = new Subscriber(new Integer(arg[1]));
+		new Thread(sub).start();
 
 		LwjglApplication app =new LwjglApplication(new ShatteredPixelDungeon(
 				new DesktopSupport(version, versionCode, config.preferencesDirectory, new DesktopInputProcessor())

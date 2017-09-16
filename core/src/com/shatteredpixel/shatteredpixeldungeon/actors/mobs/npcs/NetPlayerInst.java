@@ -1,6 +1,7 @@
 package com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs;
 
 import api.rest.RestSharedData;
+import api.rest.Subscriber;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.Actor;
@@ -82,6 +83,7 @@ public class NetPlayerInst  extends NPC implements Signal.RestListener {
 
     public NetPlayerInst (HeroClass heroCl, String name) {
         super ();
+        Subscriber.getSubscriber().add(this);
         switch (heroCl) {
             case MAGE:
                 this.spriteClass = NetPlayerMageSprite.class;
@@ -165,44 +167,18 @@ public class NetPlayerInst  extends NPC implements Signal.RestListener {
         this.sprite.idle();
     }
 
-    public static enum ACTION {UP, DOWN, RIGHT, LEFT}
     @Override
     public void onSignal(Object o) {
-        if (o instanceof ACTION) {
-            ACTION action = (ACTION) o;
-            System.out.println(action);
-            int oldPos = this.pos;
-            switch (action) {
-                case UP:
-                    this.pos = -Dungeon.level.width() + this.pos;
-                    this.move(oldPos, this.pos);
-                    break;
-
-                case DOWN:
-                    this.pos = +Dungeon.level.width() + this.pos;
-                    this.move(oldPos, this.pos);
-                    break;
-
-                case RIGHT:
-                    this.pos = this.pos + 1;
-                    this.move(oldPos, this.pos);
-                    break;
-
-                case LEFT:
-                    this.pos = this.pos - 1;
-                    this.move(oldPos, this.pos);
-                    break;
-
-            }
-        } else if (o instanceof HeroAction) {
+        if (o instanceof HeroAction) {
             this.curAction = (HeroAction) o;
             act();
+            this.curAction = null;
         }
     }
 
+    /*
     @Override
     public boolean act() {
-
         super.act();
 
         if (paralysed > 0) {
@@ -214,11 +190,6 @@ public class NetPlayerInst  extends NPC implements Signal.RestListener {
         }
 
         if (curAction == null) {
-
-            if (resting) {
-                spend( TIME_TO_REST ); next();
-                return false;
-            }
 
             ready();
             return false;
@@ -282,7 +253,7 @@ public class NetPlayerInst  extends NPC implements Signal.RestListener {
         }
 
         return false;
-    }
+    }*/
 
     private boolean actMove(Move curAction) {
         return false;
@@ -294,8 +265,8 @@ public class NetPlayerInst  extends NPC implements Signal.RestListener {
         damageInterrupt = true;
         ready = true;
 
-        AttackIndicator.updateState();
-        GameScene.ready();
+        //AttackIndicator.updateState();
+        //GameScene.ready();
     }
 
     public void spendAndNext(float tick) {
@@ -330,12 +301,6 @@ public class NetPlayerInst  extends NPC implements Signal.RestListener {
         if (pos == dst || Dungeon.level.adjacent( pos, dst )) {
 
             ready();
-
-            Heap heap = Dungeon.level.heaps.get( dst );
-            if (heap != null && heap.type == Heap.Type.FOR_SALE && heap.size() == 1) {
-                GameScene.show( new WndTradeItem( heap, true ) );
-            }
-
             return false;
 
         } else if (getCloser( dst )) {

@@ -8,12 +8,25 @@ import java.util.Base64;
 import java.util.HashMap;
 import org.zeromq.*;
 import org.zeromq.ZMQ.*;
+import zmq.socket.pubsub.Pub;
 
 public class DumpFields {
 
-    static final Context context = ZMQ.context(1);
-    static final ZMQ.Socket client = context.socket(ZMQ.REQ);
     static public boolean connected = false;
+    static private boolean serverBinded;
+    static private Object last = null;
+    /*
+    static void initialize() {
+        String id = "serv1";
+        String ip = "192.168.0.141";
+        String serverIp = "localhost";
+        Integer clientPort = 5555;
+        JSONObject j = new JSONObject();
+        j.put("id", id);
+        j.put("port", "5555");
+        j.put("ip", ip);
+    }
+    */
 
     public static <T> HashMap<String, Object> inspect(Object obj) {
         Class<?> klazz = obj.getClass();
@@ -49,28 +62,23 @@ public class DumpFields {
                 new ByteArrayOutputStream();
         ObjectOutputStream out = new ObjectOutputStream(fileOut);
         out.writeObject(e);
+        byte[] encoded = Base64.getEncoder().encode(fileOut.toByteArray());
+        byte[] binary = fileOut.toByteArray();
+        //System.out.println("Encoded :" + encoded.length + " vs not encoded: " + fileOut.toByteArray().length);
         out.close();
         fileOut.close();
-        byte[] encoded = Base64.getEncoder().encode(fileOut.toByteArray());
-        return encoded;
-    }
-
-    public static void connect () {
-        if (!connected) {
-            client.connect("tcp://localhost:5555");
-            connected = true;
-        }
+        //return encoded;
+        return binary;
     }
 
     public static boolean relayStatus (Object obj) {
-        connect();
+        if (last == obj) {
+            return false;
+        }
         try {
             byte[] data = getStatus(obj);
-            client.send(data);
             System.out.println("Sent status");
-            // zeromq must recv an ack in order to unlock status when client / server comm link
-            byte[] rec = client.recv();
-            System.out.println(rec);
+            Publisher.sendStatus (data);
             return true;
         } catch (Exception e) {
             System.err.println("Can't send status: " + e.getMessage());
