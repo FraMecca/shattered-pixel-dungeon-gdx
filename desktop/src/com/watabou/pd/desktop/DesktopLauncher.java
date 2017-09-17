@@ -21,6 +21,7 @@
 package com.watabou.pd.desktop;
 
 import api.rest.Publisher;
+import api.rest.RestEngine;
 import api.rest.RestSharedData;
 import api.rest.Subscriber;
 import com.badlogic.gdx.Files;
@@ -83,7 +84,7 @@ public class DesktopLauncher {
 
 		// Start REST server in a secondary thread
 		Thread th = new Thread(RestSharedData.getRestIstance());
-		th.start();
+		//th.start();
 		Publisher.initialize (new Integer(arg[0]));
 		Subscriber sub = new Subscriber(new Integer(arg[1]));
 		new Thread(sub).start();
@@ -91,7 +92,6 @@ public class DesktopLauncher {
 		LwjglApplication app =new LwjglApplication(new ShatteredPixelDungeon(
 				new DesktopSupport(version, versionCode, config.preferencesDirectory, new DesktopInputProcessor())
 		), config);
-	//	new RestEngine().run("server");
 
 	}
 

@@ -51,6 +51,7 @@ import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 import com.watabou.utils.Signal;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.util.ArrayList;
 
@@ -126,12 +127,16 @@ public class NetPlayerInst  extends NPC implements Signal.RestListener {
     }
 
     public static int spawnImages(HeroClass heroCl, String name){
+        return spawnImages(heroCl, name, Dungeon.hero.pos);
+    }
+
+    public static int spawnImages(HeroClass heroCl, String name, int pos){
         // Same as scroll of mirror images, but spawn instances of this classA
 
         int nImages = 1;
-        int pos = Dungeon.hero.pos;
         ArrayList<Integer> respawnPoints = new ArrayList<Integer>();
 
+        while (PathFinder.NEIGHBOURS8 == null); // spin lock
         for (int i = 0; i < PathFinder.NEIGHBOURS8.length; i++) {
             int p = pos + PathFinder.NEIGHBOURS8[i];
             if (Actor.findChar( p ) == null && (Level.passable[p] || Level.avoid[p])) {
@@ -171,10 +176,65 @@ public class NetPlayerInst  extends NPC implements Signal.RestListener {
     public void onSignal(Object o) {
         if (o instanceof HeroAction) {
             this.curAction = (HeroAction) o;
-            act();
+            this.interact(this.curAction);
             this.curAction = null;
         }
     }
+
+    //@Override
+    public boolean interact (HeroAction action) {
+        System.out.println(action);
+        if (curAction instanceof HeroAction.Move) {
+            return actMove((HeroAction.Move) curAction);
+        } else
+                if (curAction instanceof HeroAction.Interact) {
+
+            return actInteract( (HeroAction.Interact)curAction );
+
+        } else
+                if (curAction instanceof HeroAction.Buy) {
+
+            return actBuy( (HeroAction.Buy)curAction );
+
+        }else
+                if (curAction instanceof HeroAction.PickUp) {
+
+            return actPickUp( (HeroAction.PickUp)curAction );
+
+        } else
+                if (curAction instanceof HeroAction.OpenChest) {
+
+            return actOpenChest( (HeroAction.OpenChest)curAction );
+
+        } else
+                if (curAction instanceof HeroAction.Unlock) {
+
+            return actUnlock((HeroAction.Unlock) curAction);
+
+        } else
+                if (curAction instanceof HeroAction.Descend) {
+
+            return actDescend( (HeroAction.Descend)curAction );
+
+        } else
+                if (curAction instanceof HeroAction.Ascend) {
+
+            return actAscend( (HeroAction.Ascend)curAction );
+
+        } else
+                if (curAction instanceof HeroAction.Attack) {
+
+            return actAttack( (HeroAction.Attack)curAction );
+
+        } else
+                if (curAction instanceof HeroAction.Cook) {
+
+            return actCook( (HeroAction.Cook)curAction );
+
+        }
+        return false;
+    }
+
 
     /*
     @Override
@@ -256,6 +316,9 @@ public class NetPlayerInst  extends NPC implements Signal.RestListener {
     }*/
 
     private boolean actMove(Move curAction) {
+        System.out.println(curAction.dst + " from " + this.pos);
+        move(this.pos, curAction.dst);
+
         return false;
     }
 

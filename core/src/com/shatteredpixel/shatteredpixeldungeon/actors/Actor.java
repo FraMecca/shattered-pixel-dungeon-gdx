@@ -181,8 +181,6 @@ public abstract class Actor implements Bundlable, Serializable{
 			current = null;
 			if (!interrupted) {
 				now = Float.MAX_VALUE;
-				System.out.println(all.size());
-				
 				for (Actor actor : all) {
 					
 					//some actors will always go before others if time is equal.

@@ -20,7 +20,9 @@
  */
 package com.shatteredpixel.shatteredpixeldungeon.actors.hero;
 
+import api.rest.Publisher;
 import api.rest.RestSharedData;
+import api.rest.Subscriber;
 import com.shatteredpixel.shatteredpixeldungeon.Assets;
 import com.shatteredpixel.shatteredpixeldungeon.Badges;
 import com.shatteredpixel.shatteredpixeldungeon.Bones;
@@ -119,6 +121,7 @@ import com.watabou.noosa.Camera;
 import com.watabou.noosa.Game;
 import com.watabou.noosa.audio.Sample;
 import com.watabou.utils.*;
+import zmq.socket.pubsub.Sub;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -179,6 +182,9 @@ public class Hero extends Char implements Signal.RestListener, Serializable{
 
 	public Hero() {
 		super();
+		Subscriber.BEGIN b = new Subscriber.BEGIN();
+		b.pos = this.pos;
+		DumpFields.relayStatus(b);
 		RestSharedData.getRestIstance().heroApi.add(this);
 		RestSharedData.getRestIstance().itemApi.add(this);
 
@@ -194,7 +200,6 @@ public class Hero extends Char implements Signal.RestListener, Serializable{
 	}
 
 	public Hero(HeroClass hcl) {
-		// method to instanciate a fake hero used for npc in multiplayer
 		//super();
 
 		name = Messages.get(this, "name");
@@ -485,8 +490,6 @@ public class Hero extends Char implements Signal.RestListener, Serializable{
 	
 	@Override
 	public boolean act() {
-		System.err.println("Act was called " + curAction + "");
-
 		super.act();
 		
 		if (paralysed > 0) {
@@ -511,7 +514,6 @@ public class Hero extends Char implements Signal.RestListener, Serializable{
 			
 		} else {
 			boolean rc = DumpFields.relayStatus(curAction);
-			System.out.println("result of relay: " + rc);
 			resting = false;
 			
 			ready = false;

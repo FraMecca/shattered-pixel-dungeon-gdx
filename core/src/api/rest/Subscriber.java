@@ -1,10 +1,17 @@
 package api.rest;
 
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NetPlayerInst;
 import org.zeromq.ZMQ;
 
 import java.io.*;
 
 public class Subscriber extends APIAbstract implements Runnable {
+
+    public static class BEGIN implements Serializable{
+        public int pos;
+    }
+
 
     final ZMQ.Context context = ZMQ.context(1);
     final ZMQ.Socket client = context.socket(ZMQ.SUB);
@@ -19,7 +26,6 @@ public class Subscriber extends APIAbstract implements Runnable {
         while (!fl) {
             fl = client.connect("tcp://localhost:" + port.toString());
             client.subscribe("".getBytes());
-            System.out.println("Subscriber status:" + fl);
             publicSub = this;
         }
     }
@@ -32,8 +38,12 @@ public class Subscriber extends APIAbstract implements Runnable {
                 ByteArrayInputStream in = new ByteArrayInputStream(rec);
                 ObjectInputStream is = new ObjectInputStream(in);
                 Object recvdObj = is.readObject();
-                System.out.println(recvdObj);
-                this.dispatch(recvdObj);
+                if (recvdObj instanceof BEGIN) {
+                    //NetPlayerInst.spawnImages(HeroClass.MAGE, "1", ((BEGIN)recvdObj).pos);
+                    NetPlayerInst.spawnImages(HeroClass.MAGE, "9");
+                } else {
+                    this.dispatch(recvdObj);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

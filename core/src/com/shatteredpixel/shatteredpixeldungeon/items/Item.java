@@ -117,16 +117,11 @@ public class Item implements Bundlable, Serializable {
 	}
 
 	public boolean doPickUp( NetPlayerInst hero ) {
-		if (collect( hero.belongings.backpack )) {
 
 			GameScene.pickUp( this );
 			Sample.INSTANCE.play( Assets.SND_ITEM );
 			hero.spendAndNext( TIME_TO_PICK_UP );
 			return true;
-
-		} else {
-			return false;
-		}
 	}
 
 	public void doDrop( Hero hero ) {
