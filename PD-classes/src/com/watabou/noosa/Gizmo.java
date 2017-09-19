@@ -21,6 +21,7 @@
 
 package com.watabou.noosa;
 
+
 public class Gizmo {
 	
 	public boolean exists;

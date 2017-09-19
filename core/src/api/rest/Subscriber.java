@@ -1,5 +1,6 @@
 package api.rest;
 
+import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NetPlayerInst;
 import org.zeromq.ZMQ;
@@ -39,8 +40,9 @@ public class Subscriber extends APIAbstract implements Runnable {
                 ObjectInputStream is = new ObjectInputStream(in);
                 Object recvdObj = is.readObject();
                 if (recvdObj instanceof BEGIN) {
-                    //NetPlayerInst.spawnImages(HeroClass.MAGE, "1", ((BEGIN)recvdObj).pos);
-                    NetPlayerInst.spawnImages(HeroClass.MAGE, "9");
+                    NetPlayerInst m = NetPlayerInst.spawnImage(HeroClass.MAGE, "9");
+                    Dungeon.lanPlayers.add(m);
+
                 } else {
                     this.dispatch(recvdObj);
                 }

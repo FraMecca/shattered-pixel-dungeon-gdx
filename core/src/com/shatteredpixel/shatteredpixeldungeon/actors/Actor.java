@@ -33,6 +33,8 @@ import com.watabou.utils.SparseArray;
 import java.io.Serializable;
 import java.util.HashSet;
 
+import static api.rest.DumpFields.sizeof;
+
 public abstract class Actor implements Bundlable, Serializable{
 	
 	public static final float TICK	= 1f;
@@ -177,7 +179,7 @@ public abstract class Actor implements Bundlable, Serializable{
 		boolean interrupted = false;
 
 		do {
-			
+
 			current = null;
 			if (!interrupted) {
 				now = Float.MAX_VALUE;
@@ -241,7 +243,7 @@ public abstract class Actor implements Bundlable, Serializable{
 						//signals to the gamescene that actor processing is finished for now
 						GameScene.class.notify();
 					}
-					
+
 					try {
 						Thread.currentThread().wait();
 					} catch (InterruptedException e) {

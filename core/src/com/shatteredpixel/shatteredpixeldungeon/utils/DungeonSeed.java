@@ -29,7 +29,7 @@ public class DungeonSeed {
 
 	public static long randomSeed(){
 		//return Random.Long( TOTAL_SEEDS );
-		return 905;
+            return 20;
 	}
 
 	//Seed codes take the form @@@-@@@-@@@ where @ is any letter from A to Z (only uppercase)

@@ -26,7 +26,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.MirrorImage;
 import com.watabou.noosa.TextureFilm;
 
-public class NetPlayerSprite extends MobSprite {
+public class NetPlayerSprite extends MirrorSprite {
 
 	private static final int FRAME_WIDTH	= 12;
 	private static final int FRAME_HEIGHT	= 15;

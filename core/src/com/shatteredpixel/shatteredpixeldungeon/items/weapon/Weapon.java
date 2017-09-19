@@ -57,6 +57,8 @@ import com.watabou.utils.Bundlable;
 import com.watabou.utils.Bundle;
 import com.watabou.utils.Random;
 
+import java.io.Serializable;
+
 abstract public class Weapon extends KindOfWeapon {
 
 	private static final int HITS_TO_KNOW    = 20;
@@ -281,7 +283,7 @@ abstract public class Weapon extends KindOfWeapon {
 		return enchantment != null && (cursedKnown || !enchantment.curse()) ? enchantment.glowing() : null;
 	}
 
-	public static abstract class Enchantment implements Bundlable {
+	public static abstract class Enchantment implements Bundlable, Serializable {
 
 		private static final Class<?>[] enchants = new Class<?>[]{
 			Blazing.class, Venomous.class, Vorpal.class, Shocking.class,

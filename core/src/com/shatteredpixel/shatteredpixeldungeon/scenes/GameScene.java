@@ -682,6 +682,11 @@ public class GameScene extends PixelScene {
 			scene.addDiscardedSprite( heap );
 		}
 	}
+
+	public static void spinlockAdd (Mob mob) {
+		while (GameScene.scene == null);
+		add (mob);
+	}
 	
 	public static void add( Mob mob ) {
 		Dungeon.level.mobs.add( mob );

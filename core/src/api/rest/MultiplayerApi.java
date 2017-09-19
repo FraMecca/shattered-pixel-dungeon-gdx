@@ -31,7 +31,7 @@ public class MultiplayerApi extends APIAbstract {
     @Timed
     public GeneralResponse spawnRogue(@QueryParam("id") Optional<String> n) {
         nPlayers++;
-        NetPlayerInst.spawnImages(HeroClass.ROGUE, n.orElse(getnPlayers()));
+        NetPlayerInst.spawnImage(HeroClass.ROGUE, n.orElse(getnPlayers()));
         // use name or count as identification for api
         return new GeneralResponse(n.orElse(getnPlayers()), "rogue", 0L);
     }
@@ -41,7 +41,7 @@ public class MultiplayerApi extends APIAbstract {
     @Timed
     public GeneralResponse spawnWarrior(@QueryParam("id") Optional<String> n) {
         nPlayers++;
-        NetPlayerInst.spawnImages(HeroClass.WARRIOR, n.orElse(getnPlayers()));
+        NetPlayerInst.spawnImage(HeroClass.WARRIOR, n.orElse(getnPlayers()));
         return new GeneralResponse(n.orElse(getnPlayers()), "warrior", 0L);
     }
 
@@ -50,7 +50,7 @@ public class MultiplayerApi extends APIAbstract {
     @Timed
     public GeneralResponse spawnHuntress(@QueryParam("id") Optional<String> n) {
         nPlayers++;
-        NetPlayerInst.spawnImages(HeroClass.HUNTRESS, n.orElse(getnPlayers()));
+        NetPlayerInst.spawnImage(HeroClass.HUNTRESS, n.orElse(getnPlayers()));
         return new GeneralResponse(n.orElse(getnPlayers()), "huntress", 0L);
     }
 
@@ -59,7 +59,7 @@ public class MultiplayerApi extends APIAbstract {
     @Timed
     public GeneralResponse spawnmage(@QueryParam("id") Optional<String> n) {
         nPlayers++;
-        NetPlayerInst.spawnImages(HeroClass.MAGE, n.orElse(getnPlayers()));
+        NetPlayerInst.spawnImage(HeroClass.MAGE, n.orElse(getnPlayers()));
         return new GeneralResponse(n.orElse(getnPlayers()), "mage", 0L);
     }
     /*

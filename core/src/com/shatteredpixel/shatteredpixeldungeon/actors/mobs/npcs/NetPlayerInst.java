@@ -55,7 +55,7 @@ import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 import java.util.ArrayList;
 
-public class NetPlayerInst  extends NPC implements Signal.RestListener {
+public class NetPlayerInst  extends MirrorImage implements Signal.RestListener {
 
     public boolean ready = false;
     private boolean damageInterrupt = true;
@@ -74,10 +74,14 @@ public class NetPlayerInst  extends NPC implements Signal.RestListener {
     private static final float TIME_TO_SEARCH	= 2f;
     protected String apiId;
     public Belongings belongings;
+    private int damage = 5;
+    private int attack = 20;
+
 
     // instance for each other player on LAN
     {
         //spriteClass = NetPlayerWarriorSprite.class;
+        HP = HT = 200;
         state = PASSIVE;
 
     }
@@ -106,6 +110,11 @@ public class NetPlayerInst  extends NPC implements Signal.RestListener {
 
     }
 
+    public int attackProc( Char enemy, int damage ) {
+        int dmg = damage;
+
+        return dmg;
+    }
     //@Override
     public boolean interact() {
         return false;
@@ -126,11 +135,12 @@ public class NetPlayerInst  extends NPC implements Signal.RestListener {
         return this.apiId.equals(id);
     }
 
-    public static int spawnImages(HeroClass heroCl, String name){
-        return spawnImages(heroCl, name, Dungeon.hero.pos);
+    public static NetPlayerInst spawnImage(HeroClass heroCl, String name){
+        while (Dungeon.hero == null);
+        return spawnImage(heroCl, name, Dungeon.hero.pos);
     }
 
-    public static int spawnImages(HeroClass heroCl, String name, int pos){
+    public static NetPlayerInst spawnImage(HeroClass heroCl, String name, int pos){
         // Same as scroll of mirror images, but spawn instances of this classA
 
         int nImages = 1;
@@ -145,22 +155,28 @@ public class NetPlayerInst  extends NPC implements Signal.RestListener {
         }
 
         int spawned = 0;
-        while (nImages > 0 && respawnPoints.size() > 0) {
-            int index = Random.index( respawnPoints );
+        int index = Random.index( respawnPoints );
 
-            NetPlayerInst mob = new NetPlayerInst(heroCl, name);
-            GameScene.add( mob );
-            ScrollOfTeleportation.appear( mob, respawnPoints.get( index ) );
+        NetPlayerInst mob = new NetPlayerInst(heroCl, name);
+        GameScene.spinlockAdd( mob );
+        ScrollOfTeleportation.appear( mob, respawnPoints.get( index ) );
 
-            respawnPoints.remove( index );
-            nImages--;
-            spawned++;
-        }
+        respawnPoints.remove( index );
+        nImages--;
+        spawned++;
 
-        return spawned;
+        return mob;
     }
 
-    public void move (int from, int to) {
+    @Override
+    public int attackSkill( Char target ) {
+        return attack;
+    }
+
+    @Override
+    public int damageRoll() { return damage; }
+
+        public void move (int from, int to) {
         // not sure if useful,
         // but move
         // move sprite,
@@ -544,9 +560,6 @@ public class NetPlayerInst  extends NPC implements Signal.RestListener {
             Buff buff = buff(TimekeepersHourglass.timeFreeze.class);
             if (buff != null) buff.detach();
 
-            InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
-            Game.switchScene( InterlevelScene.class );
-
             return false;
 
         } else if (getCloser( stairs )) {
@@ -605,6 +618,7 @@ public class NetPlayerInst  extends NPC implements Signal.RestListener {
 
             Invisibility.dispel();
             spend( attackDelay() );
+            super.doAttack(enemy);
             sprite.attack( enemy.pos );
 
             return false;

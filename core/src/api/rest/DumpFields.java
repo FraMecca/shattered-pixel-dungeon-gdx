@@ -86,5 +86,17 @@ public class DumpFields {
             return false;
         }
     }
+
+    public static Integer sizeof (Object obj) {
+        try {
+            byte[] data = getStatus(obj);
+            System.out.println("Sizeof " + obj.toString() + ": " + data.length);
+            return data.length;
+        } catch (Exception e) {
+            System.err.println("Can't sizeof: " + e.getMessage());
+            e.printStackTrace();
+            return -1;
+        }
+    }
 }
 

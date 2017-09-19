@@ -23,6 +23,7 @@ package com.watabou.utils;
 
 import com.badlogic.gdx.math.MathUtils;
 
+
 public class PointF {
 	
 	public static final float PI	= 3.1415926f;

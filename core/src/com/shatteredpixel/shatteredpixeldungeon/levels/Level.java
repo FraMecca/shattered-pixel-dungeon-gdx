@@ -81,6 +81,7 @@ import com.watabou.utils.Point;
 import com.watabou.utils.Random;
 import com.watabou.utils.SparseArray;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;

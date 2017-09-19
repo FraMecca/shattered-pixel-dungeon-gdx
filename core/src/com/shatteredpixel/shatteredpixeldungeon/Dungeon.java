@@ -28,10 +28,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Light;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.MindVision;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Blacksmith;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Ghost;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Imp;
-import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.Wandmaker;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.*;
 import com.shatteredpixel.shatteredpixeldungeon.items.Ankh;
 import com.shatteredpixel.shatteredpixeldungeon.items.Generator;
 import com.shatteredpixel.shatteredpixeldungeon.items.Item;
@@ -68,12 +65,12 @@ import com.watabou.utils.Bundle;
 import com.watabou.utils.PathFinder;
 import com.watabou.utils.Random;
 import com.watabou.utils.SparseArray;
+import org.apache.commons.collections.list.SynchronizedList;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
 
 public class Dungeon {
 
@@ -163,6 +160,8 @@ public class Dungeon {
 	public static int challenges;
 
 	public static Hero hero;
+	public static List lanPlayers;
+
 	public static Level level;
 
 	public static QuickSlot quickslot = new QuickSlot();
@@ -226,7 +225,7 @@ public class Dungeon {
 		Generator.initArtifacts();
 		hero = new Hero();
 		hero.live();
-		
+		lanPlayers = Collections.synchronizedList(new ArrayList<NetPlayerInst>());
 		Badges.reset();
 		
 		StartScene.curClass.initHero( hero );

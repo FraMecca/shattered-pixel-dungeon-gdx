@@ -37,6 +37,7 @@ import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.SoulMark;
 import com.shatteredpixel.shatteredpixeldungeon.actors.buffs.Terror;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroSubClass;
+import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NetPlayerInst;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Flare;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Speck;
 import com.shatteredpixel.shatteredpixeldungeon.effects.Surprise;
@@ -70,9 +71,9 @@ public abstract class Mob extends Char {
 	protected static final String TXT_RAGE		= "#$%^";
 	protected static final String TXT_EXP		= "%+dEXP";
 
-	public transient AiState SLEEPING     = new Sleeping();
+	public transient AiState SLEEPING       = new Sleeping();
 	public transient AiState HUNTING		= new Hunting();
-	public transient AiState WANDERING	= new Wandering();
+	public transient AiState WANDERING	    = new Wandering();
 	public transient AiState FLEEING		= new Fleeing();
 	public transient AiState PASSIVE		= new Passive();
 	public transient AiState state = SLEEPING;
@@ -117,6 +118,11 @@ public abstract class Mob extends Char {
 		}
 		bundle.put( SEEN, enemySeen );
 		bundle.put( TARGET, target );
+	}
+
+	@Override
+	public int hashCode() {
+		return this.id();
 	}
 	
 	@Override
@@ -169,10 +175,15 @@ public abstract class Mob extends Char {
 		}
 		
 		enemy = chooseEnemy();
+		System.out.println(enemy);
 		
 		boolean enemyInFOV = enemy != null && enemy.isAlive() && Level.fieldOfView[enemy.pos] && enemy.invisible <= 0;
 
-		return state.act( enemyInFOV, justAlerted );
+		if (state != null) {
+			return state.act(enemyInFOV, justAlerted);
+		} else {
+			return false;
+		}
 	}
 	
 	protected Char chooseEnemy() {
@@ -229,7 +240,10 @@ public abstract class Mob extends Char {
 				if (enemies.size() > 0) return Random.element(enemies);
 
 				//if there is nothing, go for the hero
-				else return Dungeon.hero;
+				else {
+					enemies.addAll(Dungeon.lanPlayers);
+					return Dungeon.hero;
+				}
 
 			} else {
 
@@ -240,6 +254,7 @@ public abstract class Mob extends Char {
 
 				//and add the hero to the list of targets.
 				enemies.add(Dungeon.hero);
+				enemies.addAll(Dungeon.lanPlayers);
 				
 				//go after the closest enemy, preferring the hero if two are equidistant
 				Char closest = null;
@@ -494,7 +509,7 @@ public abstract class Mob extends Char {
 	}
 
 	public boolean surprisedBy( Char enemy ){
-		return !enemySeen && enemy == Dungeon.hero;
+		return !enemySeen && (enemy == Dungeon.hero || enemy instanceof NetPlayerInst);
 	}
 
 	public void aggro( Char ch ) {
@@ -796,6 +811,21 @@ public abstract class Mob extends Char {
 			enemySeen = false;
 			spend( TICK );
 			return true;
+		}
+
+		@Override
+		public String status() {
+			return Messages.get(this, "status", name );
+		}
+	}
+
+	protected class Multiplayer implements AiState {
+
+		public static final String TAG	= "PASSIVE";
+
+		@Override
+		public boolean act( boolean enemyInFOV, boolean justAlerted ) {
+			return false;
 		}
 
 		@Override
