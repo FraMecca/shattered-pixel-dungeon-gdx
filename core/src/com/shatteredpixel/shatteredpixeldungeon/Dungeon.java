@@ -160,7 +160,7 @@ public class Dungeon {
 	public static int challenges;
 
 	public static Hero hero;
-	public static List lanPlayers;
+	public static Set lanPlayers;
 
 	public static Level level;
 
@@ -225,7 +225,7 @@ public class Dungeon {
 		Generator.initArtifacts();
 		hero = new Hero();
 		hero.live();
-		lanPlayers = Collections.synchronizedList(new ArrayList<NetPlayerInst>());
+		lanPlayers = Collections.synchronizedSet(new HashSet<NetPlayerInst>());
 		Badges.reset();
 		
 		StartScene.curClass.initHero( hero );

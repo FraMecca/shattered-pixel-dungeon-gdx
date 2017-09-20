@@ -1,16 +1,27 @@
 package api.rest;
 
 import com.shatteredpixel.shatteredpixeldungeon.Dungeon;
+import com.shatteredpixel.shatteredpixeldungeon.actors.Char;
+import com.shatteredpixel.shatteredpixeldungeon.actors.hero.Hero;
 import com.shatteredpixel.shatteredpixeldungeon.actors.hero.HeroClass;
 import com.shatteredpixel.shatteredpixeldungeon.actors.mobs.npcs.NetPlayerInst;
 import org.zeromq.ZMQ;
 
 import java.io.*;
+import java.util.HashSet;
 
 public class Subscriber extends APIAbstract implements Runnable {
 
     public static class BEGIN implements Serializable{
         public int pos;
+        public HeroClass cl;
+        public Integer id;
+
+        public BEGIN(Hero hero) {
+            pos = hero.pos;
+            cl = hero.heroClass;
+            id = hero.lanId;
+        }
     }
 
 
@@ -40,8 +51,18 @@ public class Subscriber extends APIAbstract implements Runnable {
                 ObjectInputStream is = new ObjectInputStream(in);
                 Object recvdObj = is.readObject();
                 if (recvdObj instanceof BEGIN) {
-                    NetPlayerInst m = NetPlayerInst.spawnImage(HeroClass.MAGE, "9");
-                    Dungeon.lanPlayers.add(m);
+                    boolean alreadyAdded = false;
+                    for (Object m : Dungeon.lanPlayers) {
+                        if (((NetPlayerInst)m).lanId.equals (((BEGIN) recvdObj).id)) {
+                            alreadyAdded = true;
+                            break;
+                        }
+                    }
+                    if (!alreadyAdded) {
+                        NetPlayerInst m = NetPlayerInst.spawnImage(((BEGIN) recvdObj).cl, ((BEGIN) recvdObj).id);
+                        Dungeon.lanPlayers.add(m);
+                        System.out.println("Created netinsta: " + m.lanId);
+                    }
 
                 } else {
                     this.dispatch(recvdObj);

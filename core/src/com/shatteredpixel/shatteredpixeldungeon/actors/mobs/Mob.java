@@ -254,7 +254,9 @@ public abstract class Mob extends Char {
 
 				//and add the hero to the list of targets.
 				enemies.add(Dungeon.hero);
-				enemies.addAll(Dungeon.lanPlayers);
+				if (Dungeon.lanPlayers != null) {
+					enemies.addAll(Dungeon.lanPlayers);
+				}
 				
 				//go after the closest enemy, preferring the hero if two are equidistant
 				Char closest = null;

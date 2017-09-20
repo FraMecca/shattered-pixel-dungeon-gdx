@@ -19,6 +19,7 @@ import java.util.Optional;
 @Path("/multi")
 @Produces(MediaType.APPLICATION_JSON)
 public class MultiplayerApi extends APIAbstract {
+    /*
 
     private static Integer nPlayers = 0;
 
@@ -29,7 +30,7 @@ public class MultiplayerApi extends APIAbstract {
     @GET
     @Path("/spawn/rogue")
     @Timed
-    public GeneralResponse spawnRogue(@QueryParam("id") Optional<String> n) {
+    public GeneralResponse spawnRogue(@QueryParam("id") Optional<Integer> n) {
         nPlayers++;
         NetPlayerInst.spawnImage(HeroClass.ROGUE, n.orElse(getnPlayers()));
         // use name or count as identification for api

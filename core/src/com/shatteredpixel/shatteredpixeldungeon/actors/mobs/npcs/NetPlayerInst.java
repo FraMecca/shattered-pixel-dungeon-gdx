@@ -72,10 +72,10 @@ public class NetPlayerInst  extends MirrorImage implements Signal.RestListener {
 
     private static final float TIME_TO_REST		= 1f;
     private static final float TIME_TO_SEARCH	= 2f;
-    protected String apiId;
     public Belongings belongings;
     private int damage = 5;
     private int attack = 20;
+    public Integer lanId;
 
 
     // instance for each other player on LAN
@@ -86,8 +86,9 @@ public class NetPlayerInst  extends MirrorImage implements Signal.RestListener {
 
     }
 
-    public NetPlayerInst (HeroClass heroCl, String name) {
+    public NetPlayerInst (HeroClass heroCl, Integer lanId) {
         super ();
+        this.lanId = lanId;
         Subscriber.getSubscriber().add(this);
         switch (heroCl) {
             case MAGE:
@@ -104,7 +105,6 @@ public class NetPlayerInst  extends MirrorImage implements Signal.RestListener {
                 break;
         }
 
-        this.apiId = name;
 
         RestSharedData.getRestIstance().multipApi.add(this);
 
@@ -127,20 +127,24 @@ public class NetPlayerInst  extends MirrorImage implements Signal.RestListener {
 
     @Override
     public void onSignal(Object o, Integer i) {
+    }
 
+    @Override
+    public int hashCode() {
+        return this.lanId;
     }
 
     @Override
     public boolean checkId(String id) {
-        return this.apiId.equals(id);
+        return this.lanId.equals(id);
     }
 
-    public static NetPlayerInst spawnImage(HeroClass heroCl, String name){
+    public static NetPlayerInst spawnImage(HeroClass heroCl, Integer name){
         while (Dungeon.hero == null);
         return spawnImage(heroCl, name, Dungeon.hero.pos);
     }
 
-    public static NetPlayerInst spawnImage(HeroClass heroCl, String name, int pos){
+    public static NetPlayerInst spawnImage(HeroClass heroCl, Integer id, int pos){
         // Same as scroll of mirror images, but spawn instances of this classA
 
         int nImages = 1;
@@ -157,7 +161,7 @@ public class NetPlayerInst  extends MirrorImage implements Signal.RestListener {
         int spawned = 0;
         int index = Random.index( respawnPoints );
 
-        NetPlayerInst mob = new NetPlayerInst(heroCl, name);
+        NetPlayerInst mob = new NetPlayerInst(heroCl, id);
         GameScene.spinlockAdd( mob );
         ScrollOfTeleportation.appear( mob, respawnPoints.get( index ) );
 

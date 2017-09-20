@@ -47,7 +47,7 @@ public enum GameAction {
 	MOVE_TOP_LEFT("Move NW"), MOVE_TOP_RIGHT("Move NE"), MOVE_BOTTOM_LEFT("Move SW"), MOVE_BOTTOM_RIGHT("Move SE"),
 	OPERATE("Current Cell"),
 
-	UNKNOWN(null);
+	UNKNOWN(null), BROADCAST_LAN("Bradcast on LAN");
 
 	private final String description;
 

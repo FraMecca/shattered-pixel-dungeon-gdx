@@ -175,6 +175,7 @@ public class Hero extends Char implements Signal.RestListener, Serializable{
 	public int HTBoost = 0;
 	
 	private ArrayList<Mob> visibleEnemies;
+	public Integer lanId;
 
 	//This list is maintained so that some logic checks can be skipped
 	// for enemies we know we aren't seeing normally, resultign in better performance
@@ -182,21 +183,25 @@ public class Hero extends Char implements Signal.RestListener, Serializable{
 
 	public Hero() {
 		super();
-		Subscriber.BEGIN b = new Subscriber.BEGIN();
-		b.pos = this.pos;
-		DumpFields.relayStatus(b);
 		RestSharedData.getRestIstance().heroApi.add(this);
 		RestSharedData.getRestIstance().itemApi.add(this);
 
 		name = Messages.get(this, "name");
-		
-		HP = HT = 20; // HT is current health, HP is maximum health
+
+		lanId = (int) SystemTime.now / 10000; // the id used to broadcast on lan.
+		HP = HT = 20; // HT is current health, HP is maximu\m health
 		STR = STARTING_STR;
 		awareness = 0.1f;
 		
 		belongings = new Belongings( this );
 		
 		visibleEnemies = new ArrayList<Mob>();
+	}
+
+	public void publishOnLan () {
+		Subscriber.BEGIN b = new Subscriber.BEGIN(this);
+		DumpFields.relayStatus(b);
+		System.out.println("Broadcasted: " + this.lanId);
 	}
 
 	public Hero(HeroClass hcl) {

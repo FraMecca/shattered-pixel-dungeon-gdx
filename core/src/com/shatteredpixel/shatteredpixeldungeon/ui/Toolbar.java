@@ -42,6 +42,7 @@ public class Toolbar extends Component {
 
 	private Tool btnWait;
 	private Tool btnSearch;
+	private Tool btnLan;
 	private Tool btnInventory;
 	private QuickslotTool[] btnQuick;
 
@@ -101,6 +102,14 @@ public class Toolbar extends Component {
 			protected boolean onLongClick() {
 				Dungeon.hero.search(true);
 				return true;
+			}
+		});
+
+		add (btnLan = new Tool (64, 0, 20, 26, GameAction.BROADCAST_LAN) {
+			@Override
+			protected void onClick() {
+				System.out.println("broadcast");
+				Dungeon.hero.publishOnLan();
 			}
 		});
 
@@ -198,6 +207,7 @@ public class Toolbar extends Component {
 			case SPLIT:
 				btnWait.setPos(x, y);
 				btnSearch.setPos(btnWait.right(), y);
+				btnLan.setPos(btnSearch.right(), y);
 
 				btnInventory.setPos(right - btnInventory.width(), y);
 
@@ -218,7 +228,8 @@ public class Toolbar extends Component {
 			case GROUP:
 				btnWait.setPos(right - btnWait.width(), y);
 				btnSearch.setPos(btnWait.left() - btnSearch.width(), y);
-				btnInventory.setPos(btnSearch.left() - btnInventory.width(), y);
+				btnLan.setPos(btnSearch.left() - btnLan.width(), y);
+				btnInventory.setPos(btnLan.left() - btnInventory.width(), y);
 
 				btnQuick[0].setPos(btnInventory.left() - btnQuick[0].width(), visible[0]);
 				btnQuick[1].setPos(btnQuick[0].left() - btnQuick[1].width(), visible[1]);
