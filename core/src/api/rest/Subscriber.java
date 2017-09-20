@@ -20,7 +20,7 @@ public class Subscriber extends APIAbstract implements Runnable {
         public BEGIN(Hero hero) {
             pos = hero.pos;
             cl = hero.heroClass;
-            id = hero.lanId;
+            id = hero.getLanId();
         }
     }
 
